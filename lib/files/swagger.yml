@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
-  title: RW Tags API
-  description: Resource Watch - Tags API
+  title: RW Layerspec API
+  description: Resource Watch - Layerspec API
   version: "1.0.0"
 host: ec2-52-23-163-254.compute-1.amazonaws.com
 
@@ -12,18 +12,31 @@ produces:
   - application/json
 
 paths:
-  /tags:
+  /layers:
     get:
-      description: Returns all tags
+      description: Returns all layers
       produces:
         - application/json
       tags:
-        - Tags
+        - Layer
+      parameters:
+        - name: status
+          in: query
+          description: Filter layers on status (pending, active, failed, disabled, all)
+          type: string
+        - name: published
+          in: query
+          description: Filter layers on published status (true, false)
+          type: string
+        - name: app
+          in: query
+          description: Filter layers on app (default, gfw, wrw)
+          type: string
       responses:
         200:
-          description: Tags obtained
+          description: Layers obtained
           schema:
-            $ref: '#/definitions/Tags'
+            $ref: '#/definitions/Layers'
         500:
           description: Unexpected error
           schema:
@@ -32,26 +45,25 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/Error'
-
     post:
-      summary: Create tags
-      description: Create tag
+      summary: Create layer
+      description: Create layer
       produces:
         - application/json
       tags:
-        - Tags
+        - Layer
       parameters:
-        - name: tag
+        - name: layer
           in: body
-          description: Tags to save
+          description: Layer to save
           required: true
           schema:
-            $ref: '#/definitions/TagsCreate'
+            $ref: '#/definitions/LayerCreate'
       responses:
-        201:
+        200:
           description: The object created
           schema:
-            $ref: '#/definitions/CreatedMessage'
+            $ref: '#/definitions/Layer'
         400:
           description: Validate error
           schema:
@@ -65,31 +77,90 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /tags/{cat}/{id}:
+  /layers/{id}:
     get:
-      description: Returns tags for specific taggable type (datasets, widgets etc..)
+      description: Returns layer based on a single UUID or slug, if the geostore not exist return 404
       produces:
         - application/json
       tags:
-        - Tags
+        - Layer
       parameters:
-        - name: cat
-          in: path
-          required: true
-          description: Show a specific taggable type (datasets, widgets etc..) followed by taggable_id or use find followed by tag id or slug to show a specific tag
-          type: string
         - name: id
           in: path
+          description: UUID of layer to fetch or slug
           required: true
-          description: Filter tags on taggable type (datasets, widgets etc..)
           type: string
       responses:
         200:
-          description: Tags obtained
+          description: Layer obtained
           schema:
-            $ref: '#/definitions/Tags'
+            $ref: '#/definitions/Layer'
         404:
-          description: Tags not found
+          description: Layer not found
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      description: Update layer based on a single UUID or slug, if the geostore not exist return 404
+      produces:
+        - application/json
+      tags:
+        - Layer
+      parameters:
+        - name: id
+          in: path
+          description: UUID of layer to update or slug
+          required: true
+          type: string
+        - name: layer
+          in: body
+          description: New data of the layer
+          required: true
+          schema:
+            $ref: '#/definitions/LayerCreate'
+      responses:
+        200:
+          description: Layer updated
+          schema:
+            $ref: '#/definitions/Layer'
+        404:
+          description: Layer not found
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      description: Delete layer based on a single UUID or slug, if the geostore not exist return 404
+      produces:
+        - application/json
+      tags:
+        - Layer
+      parameters:
+        - name: id
+          in: path
+          description: UUID of layer to delete or slug
+          required: true
+          type: string
+      responses:
+        200:
+          description: Layer updated
+          schema:
+            $ref: '#/definitions/Message'
+        404:
+          description: Layer not found
           schema:
             $ref: '#/definitions/Error'
         500:
@@ -102,49 +173,86 @@ paths:
             $ref: '#/definitions/Error'
 
 definitions:
-  TagsCreate:
+  LayerCreate:
     type: object
     properties:
-      tag:
+      layer:
         type: object
         properties:
-          taggable_slug:
+          name:
             type: string
-            description: Slug of taggable object
-          taggabñe_type:
+            description: Name of the layer
+          title:
             type: string
-            description: Model name of taggable object
-          taggabñe_id:
+            description: Title of the layer
+          status:
+            type: integer
+            format: int32
+            description: Id of the status (0 - panding, 1 - saved, 2 - failed, 3 - disabled)
+          published:
+            type: boolean
+            description: Published status (true - false)
+          slug:
             type: string
-            description: UUID of taggable object
-          tags_list:
-            type: object
-            description: Tag names - sample - ['tag1','tag2']
+            description: Slug (would be generated from title if empty)
 
-  Tags:
+  Layers:
     type: array
     items:
-      $ref: '#/definitions/TagsArray'
+      $ref: '#/definitions/LayerArray'
 
-  TagsArray:
+  LayerArray:
     type: object
     properties:
       id:
         type: string
-        format: UUID
-        description: Tags id
+        description: Layer uuid
+      slug:
+        type: string
+        description: Slug of the layer
       name:
         type: string
-        description: Tag name
-      taggings_count:
-        type: integer
-        description: Tagging count
+        description: Name of the layer
+      status:
+        type: string
+        description: status
+      published:
+        type: boolean
+        description: Published status
 
-  CreatedMessage:
+  Layer:
     type: object
     properties:
-      success:
-        type: boolean
+      id:
+        type: string
+        description: Layer uuid
+      slug:
+        type: string
+        description: Slug of the layer
+      title:
+        type: string
+        description: Title of the layer
+      meta:
+        type: object
+        properties:
+          status:
+            type: string
+            description: Status
+          published:
+            type: boolean
+            description: Published status
+          updated_at:
+            type: string
+            description: Date
+          created_at:
+            type: string
+            description: Date
+
+  Message:
+    type: object
+    properties:
+      status:
+        type: number
       message:
         type: string
 
