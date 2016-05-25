@@ -32,8 +32,11 @@ class Layer
 
   before_update :assign_slug
 
-  before_validation(on: [:create, :update]) do
+  before_validation(on: :create) do
     set_uuid
+  end
+
+  before_validation(on: [:create, :update]) do
     check_slug
   end
 
