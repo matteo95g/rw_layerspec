@@ -1,0 +1,27 @@
+language: ruby
+cache: bundler
+
+rvm:
+  - 2.3.0
+
+services:
+  - mongodb
+  - redis-server
+
+before_script:
+  - cp config/mongoid.yml.travis config/mongoid.yml
+
+script:
+  - 'bundle exec rake db:create'
+  - 'bundle exec rspec'
+
+notifications:
+  email:
+    recipients:
+      - sebastian.schkudlara@vizzuality.com
+    on_failure: change
+    on_success: never
+
+addons:
+  code_climate:
+    repo_token: xxx

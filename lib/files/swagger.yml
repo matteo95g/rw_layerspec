@@ -1,0 +1,165 @@
+swagger: '2.0'
+info:
+  title: RW Tags API
+  description: Resource Watch - Tags API
+  version: "1.0.0"
+host: ec2-52-23-163-254.compute-1.amazonaws.com
+
+schemes:
+  - http
+
+produces:
+  - application/json
+
+paths:
+  /tags:
+    get:
+      description: Returns all tags
+      produces:
+        - application/json
+      tags:
+        - Tags
+      responses:
+        200:
+          description: Tags obtained
+          schema:
+            $ref: '#/definitions/Tags'
+        500:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+    post:
+      summary: Create tags
+      description: Create tag
+      produces:
+        - application/json
+      tags:
+        - Tags
+      parameters:
+        - name: tag
+          in: body
+          description: Tags to save
+          required: true
+          schema:
+            $ref: '#/definitions/TagsCreate'
+      responses:
+        201:
+          description: The object created
+          schema:
+            $ref: '#/definitions/CreatedMessage'
+        400:
+          description: Validate error
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /tags/{cat}/{id}:
+    get:
+      description: Returns tags for specific taggable type (datasets, widgets etc..)
+      produces:
+        - application/json
+      tags:
+        - Tags
+      parameters:
+        - name: cat
+          in: path
+          required: true
+          description: Show a specific taggable type (datasets, widgets etc..) followed by taggable_id or use find followed by tag id or slug to show a specific tag
+          type: string
+        - name: id
+          in: path
+          required: true
+          description: Filter tags on taggable type (datasets, widgets etc..)
+          type: string
+      responses:
+        200:
+          description: Tags obtained
+          schema:
+            $ref: '#/definitions/Tags'
+        404:
+          description: Tags not found
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+definitions:
+  TagsCreate:
+    type: object
+    properties:
+      tag:
+        type: object
+        properties:
+          taggable_slug:
+            type: string
+            description: Slug of taggable object
+          taggabñe_type:
+            type: string
+            description: Model name of taggable object
+          taggabñe_id:
+            type: string
+            description: UUID of taggable object
+          tags_list:
+            type: object
+            description: Tag names - sample - ['tag1','tag2']
+
+  Tags:
+    type: array
+    items:
+      $ref: '#/definitions/TagsArray'
+
+  TagsArray:
+    type: object
+    properties:
+      id:
+        type: string
+        format: UUID
+        description: Tags id
+      name:
+        type: string
+        description: Tag name
+      taggings_count:
+        type: integer
+        description: Tagging count
+
+  CreatedMessage:
+    type: object
+    properties:
+      success:
+        type: boolean
+      message:
+        type: string
+
+  Error:
+    type: object
+    properties:
+      status:
+        type: string
+        description: The HTTP status code applicable to this problem, expressed as a string value
+      error:
+        type: string
+        description: An application-specific error code, expressed as a string value
+      exception:
+        type: string
+        description: A short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization.
+      traces:
+        type: string
+        description: A human-readable explanation specific to this occurrence of the problem. Like title, this field's value can be localized

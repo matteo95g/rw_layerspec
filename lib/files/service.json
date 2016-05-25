@@ -1,0 +1,52 @@
+{
+    "id": "rw_layerspec_v1",
+    "name": "RW Layerspec v1",
+    "urls": [
+      {
+        "url": "/layers",
+        "method": "GET",
+        "endpoints": [{
+            "method": "GET",
+            "baseUrl": "http://localhost:3030",
+            "path": "/layers"
+        }]
+      },
+      {
+        "url": "/layers/:id",
+        "method": "GET",
+        "endpoints": [{
+            "method": "GET",
+            "baseUrl": "http://localhost:3030",
+            "path": "/layers/:id"
+        }]
+      },
+      {
+        "url": "/layers",
+        "method": "POST",
+        "endpoints": [{
+            "method": "POST",
+            "baseUrl": "http://localhost:3030",
+            "path": "/layers"
+        }]
+      },
+      {
+        "url": "/layers/:id",
+        "method": "PUT",
+        "endpoints": [{
+            "method": "PUT",
+            "baseUrl": "http://localhost:3030",
+            "path": "/layers/:id"
+        }]
+      },
+      {
+        "url": "/layers/:id",
+        "method": "DELETE",
+        "endpoints": [{
+            "method": "DELETE",
+            "baseUrl": "http://localhost:3030",
+            "path": "/layers/:id"
+        }]
+      }
+    ],
+    "swagger": null
+}

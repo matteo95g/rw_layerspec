@@ -1,0 +1,82 @@
+#! /bin/bash
+
+case "$1" in
+    start)
+        ps -ef | grep 3030 | grep puma
+        if [ $? -eq 1 ]
+        then
+          case "$2" in
+            develop)
+              echo "Startting server..."
+              bundle exec puma -C config/puma.rb
+              echo "Server running on port 3030 ;)!"
+              echo "Starting sidekiq..."
+              bundle exec sidekiq -C config/sidekiq.yml
+              echo "Register RW Layerspec"
+              curl --request POST \
+                   --url http://192.168.99.100:8000/gateway/service \
+                   --header 'cache-control: no-cache' \
+                   --header 'content-type: application/json' \
+                   --data "$(cat lib/files/service_develop.json)"
+              ;;
+            production)
+              echo "Startting server..."
+              bundle exec puma -e production -C config/puma.rb
+              echo "Server running on port 3030 ;)!"
+              echo "Starting sidekiq..."
+              bundle exec sidekiq -e production -C config/sidekiq.yml
+              ;;
+            *)
+              echo "Usage: server start {develop|production}" >&2
+              exit 1
+              ;;
+          esac
+        else
+          echo "Server already running on port 3030 ;)!"
+        fi
+        ;;
+    stop)
+        ps -ef | grep 3030 | grep puma
+        if [ $? -eq 1 ]
+        then
+          echo "Server is down."
+        else
+          echo "Stopping server..."
+          kill -9 $(lsof -i tcp:3030 -t)
+          echo "Server is down."
+        fi
+        echo "Stopping sidekiq..."
+        bundle exec sidekiqctl stop tmp/pids/sidekiq.pid 0
+        ;;
+    status)
+        ps -ef | grep 3030 | grep puma
+        if [ $? -eq 1 ]
+        then
+          echo "Server is down."
+        else
+          echo "Server running on port 3030 ;)!"
+        fi
+        ;;
+    restart)
+        ps -ef | grep 3030 | grep puma
+        if [ $? -eq 1 ]
+        then
+          bundle exec puma -C config/puma.rb
+        else
+          kill -9 $(lsof -i tcp:3030 -t) && bundle exec puma -C config/puma.rb
+        fi
+        ;;
+    register-service)
+        curl --request POST \
+             --url http://ec2-52-23-163-254.compute-1.amazonaws.com/gateway/service \
+             --header 'cache-control: no-cache' \
+             --header 'content-type: application/json' \
+             --data "$(cat lib/files/service_heroku.json)"
+        ;;
+    *)
+        echo "Usage: server {start develop - production|stop|status|restart|register-service}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0
