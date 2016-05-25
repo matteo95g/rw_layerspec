@@ -107,8 +107,8 @@ module V1
         get "/layers/#{layer_slug}"
 
         expect(status).to eq(200)
-        expect(json['slug']).to            eq('layer-second-one')
-        expect(json['meta']['status']).to  eq('saved')
+        expect(json['slug']).to           eq('layer-second-one')
+        expect(json['meta']['status']).to eq('saved')
       end
 
       it 'Show layer by id' do
@@ -139,9 +139,9 @@ module V1
         put "/layers/#{layer_slug}", params: update_params
 
         expect(status).to eq(200)
-        expect(json['id']).to                be_present
-        expect(json['name']).to              eq('First test layer update')
-        expect(json['slug']).to              eq('test-layer-slug')
+        expect(json['id']).to   eq(layer_id)
+        expect(json['name']).to eq('First test layer update')
+        expect(json['slug']).to eq('test-layer-slug')
       end
 
       it 'Allows to delete layer by id' do
