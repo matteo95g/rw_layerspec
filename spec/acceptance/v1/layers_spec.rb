@@ -121,9 +121,9 @@ module V1
         post '/layers', params: params
 
         expect(status).to eq(201)
-        expect(json['id']).to   be_present
-        expect(json['slug']).to eq('second-test-layer')
-        expect(json['data']).to eq({"marks"=>{"type"=>"rect", "from"=>{"data"=>"table"}}})
+        expect(json['id']).to          be_present
+        expect(json['slug']).to        eq('second-test-layer')
+        expect(json['custom_data']).to eq({"marks"=>{"type"=>"rect", "from"=>{"data"=>"table"}}})
       end
 
       it 'Name and slug validation' do
