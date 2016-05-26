@@ -70,7 +70,7 @@ module V1
 
           expect(status).to eq(200)
           expect(json.size).to eq(3)
-          expect(json[0]['published']).to eq(true)
+          expect(json[0]['attributes']['published']).to eq(true)
         end
 
         it 'Show list of layers with published status false' do
@@ -78,7 +78,7 @@ module V1
 
           expect(status).to eq(200)
           expect(json.size).to eq(2)
-          expect(json[0]['published']).to eq(false)
+          expect(json[0]['attributes']['published']).to eq(false)
         end
 
         it 'Show list of layers for app GFW' do
@@ -107,8 +107,8 @@ module V1
         get "/layers/#{layer_slug}"
 
         expect(status).to eq(200)
-        expect(json['slug']).to           eq('layer-second-one')
-        expect(json['meta']['status']).to eq('saved')
+        expect(json['attributes']['slug']).to           eq('layer-second-one')
+        expect(json['attributes']['meta']['status']).to eq('saved')
       end
 
       it 'Show layer by id' do
@@ -121,34 +121,34 @@ module V1
         post '/layers', params: params
 
         expect(status).to eq(201)
-        expect(json['id']).to          be_present
-        expect(json['slug']).to        eq('second-test-layer')
-        expect(json['custom_data']).to eq({"marks"=>{"type"=>"rect", "from"=>{"data"=>"table"}}})
+        expect(json['id']).to                        be_present
+        expect(json['attributes']['slug']).to        eq('second-test-layer')
+        expect(json['attributes']['custom-data']).to eq({"marks"=>{"type"=>"rect", "from"=>{"data"=>"table"}}})
       end
 
       it 'Name and slug validation' do
         post '/layers', params: params_faild
 
         expect(status).to eq(422)
-        expect(json['success']).to         eq(false)
-        expect(json['message']['name']).to eq(['is already taken'])
-        expect(json['message']['slug']).to eq(['is already taken'])
+        expect(json_main['success']).to         eq(false)
+        expect(json_main['message']['name']).to eq(['is already taken'])
+        expect(json_main['message']['slug']).to eq(['is already taken'])
       end
 
       it 'Allows to update layer' do
         put "/layers/#{layer_slug}", params: update_params
 
         expect(status).to eq(200)
-        expect(json['id']).to   eq(layer_id)
-        expect(json['name']).to eq('First test layer update')
-        expect(json['slug']).to eq('test-layer-slug')
+        expect(json['id']).to                 eq(layer_id)
+        expect(json['attributes']['name']).to eq('First test layer update')
+        expect(json['attributes']['slug']).to eq('test-layer-slug')
       end
 
       it 'Allows to delete layer by id' do
         delete "/layers/#{layer_id}"
 
         expect(status).to eq(200)
-        expect(json['message']).to eq('Layer deleted')
+        expect(json_main['message']).to           eq('Layer deleted')
         expect(Layer.where(id: layer_id)).to be_empty
       end
 
@@ -156,7 +156,7 @@ module V1
         delete "/layers/#{layer_slug}"
 
         expect(status).to eq(200)
-        expect(json['message']).to eq('Layer deleted')
+        expect(json_main['message']).to               eq('Layer deleted')
         expect(Layer.where(slug: layer_slug)).to be_empty
       end
     end
