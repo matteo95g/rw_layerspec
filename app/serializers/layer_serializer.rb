@@ -1,6 +1,6 @@
 class LayerSerializer < ActiveModel::Serializer
   attributes :id, :slug, :application, :name, :provider, :category, :subcategory, :iso, :analyzable, :group, :global,
-             :info_window, :max_zoom, :children, :info, :custom_data, :meta
+             :info_window, :max_zoom, :children, :display, :max_date, :min_date, :fit_to_geom, :info, :custom_data, :meta
 
   def application
     object.app_txt
@@ -16,13 +16,14 @@ class LayerSerializer < ActiveModel::Serializer
 
   def info
     data = {}
-    data['title']                = object.title
-    data['subtitle']             = object.subtitle
-    data['legend_template']      = object.legend_template
-    data['info_window_template'] = object.info_window_template
-    data['z_index']              = object.z_index
-    data['color']                = object.color
-    data['dataset_id']           = object.dataset_id
+    data['title']                = object.try(:title)
+    data['subtitle']             = object.try(:subtitle)
+    data['legend_template']      = object.try(:legend_template)
+    data['info_window_template'] = object.try(:info_window_template)
+    data['z_index']              = object.try(:z_index)
+    data['color']                = object.try(:color)
+    data['dataset_id']           = object.try(:dataset_id)
+    data['title_color']          = object.try(:title_color)
     data
   end
 
