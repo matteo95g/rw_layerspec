@@ -5,7 +5,7 @@ module V1
 
     def index
       @layers = Layer.fetch_all(layer_type_filter)
-      render json: @layers, each_serializer: LayerArraySerializer, root: false
+      render json: @layers, each_serializer: LayerSerializer, root: false
     end
 
     def show

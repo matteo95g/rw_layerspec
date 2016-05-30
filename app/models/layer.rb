@@ -1,4 +1,8 @@
 class Layer
+  APP      = %w(DEFAULT GFW WRW).freeze
+  STATUS   = %w(pending saved failed deleted).freeze
+  PROVIDER = %w(CartoDb).freeze
+
   include LayerData
 
   before_update :assign_slug

@@ -14,7 +14,7 @@ module V1
       let!(:update_params) {{"layer": { "name": "First test layer update", "slug": "test-layer-slug", "data": data }}}
 
       let!(:layer) {
-        Layer.create!(name: 'Layer second one', published: true, status: 1, app_type: 1)
+        Layer.create!(name: 'Layer second one', published: true, status: 1, app_type: 1, children: ['first_child', 'second_child'])
       }
 
       let!(:default_layer) {
@@ -69,16 +69,16 @@ module V1
           get '/layers?published=true'
 
           expect(status).to eq(200)
-          expect(json.size).to eq(3)
-          expect(json[0]['attributes']['published']).to eq(true)
+          expect(json.size).to                                  eq(3)
+          expect(json[0]['attributes']['meta']['published']).to eq(true)
         end
 
         it 'Show list of layers with published status false' do
           get '/layers?published=false'
 
           expect(status).to eq(200)
-          expect(json.size).to eq(2)
-          expect(json[0]['attributes']['published']).to eq(false)
+          expect(json.size).to                                  eq(2)
+          expect(json[0]['attributes']['meta']['published']).to eq(false)
         end
 
         it 'Show list of layers for app GFW' do
@@ -109,6 +109,7 @@ module V1
         expect(status).to eq(200)
         expect(json['attributes']['slug']).to           eq('layer-second-one')
         expect(json['attributes']['meta']['status']).to eq('saved')
+        expect(json['attributes']['children']).to       eq(['first_child', 'second_child'])
       end
 
       it 'Show layer by id' do
