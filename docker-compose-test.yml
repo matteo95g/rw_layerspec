@@ -5,6 +5,7 @@ test:
     - .:/rw_layerspec
   links:
     - mongo
+  env_file: test.env
 
 mongo:
   image: mongo
