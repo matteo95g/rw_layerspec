@@ -1,4 +1,4 @@
-web:
+prod:
   image: vizzuality/rw_layerspec:1.0.0
   command: start
   ports:
