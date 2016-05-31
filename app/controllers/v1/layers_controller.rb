@@ -43,6 +43,11 @@ module V1
       render json: @docs
     end
 
+    def info
+      @docs = Oj.load(File.read('lib/files/service.json'))
+      render json: @docs
+    end
+
     private
 
       def set_layer

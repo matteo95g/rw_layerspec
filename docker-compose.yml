@@ -1,0 +1,11 @@
+web:
+  image: vizzuality/rw_layerspec:1.0.0
+  command: start
+  ports:
+    - '3030'
+  env_file: prod.env
+
+  log_driver: "gelf"
+  restart: always
+  log_opt:
+    gelf-address: "udp://172.31.40.76:12201"
