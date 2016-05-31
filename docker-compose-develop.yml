@@ -1,0 +1,20 @@
+web:
+  build: .
+  command: develop
+  volumes:
+    - .:/rw_layerspec
+  ports:
+    - '3030:3030'
+  links:
+    - mongo
+  env_file: .env.development
+
+mongo:
+  image: mongo
+  container_name: layerspec-mongo
+  command: --smallfiles
+  ports:
+    - '27017'
+
+redis:
+  image: redis

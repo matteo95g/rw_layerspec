@@ -7,7 +7,6 @@
         "method": "GET",
         "endpoints": [{
             "method": "GET",
-            "baseUrl": "http://localhost:3015",
             "path": "/embeds"
         }]
       },
@@ -16,7 +15,6 @@
         "method": "GET",
         "endpoints": [{
             "method": "GET",
-            "baseUrl": "http://localhost:3015",
             "path": "/embeds/:id"
         }]
       },
@@ -25,7 +23,6 @@
         "method": "POST",
         "endpoints": [{
             "method": "POST",
-            "baseUrl": "http://localhost:3015",
             "path": "/embeds"
         }]
       },
@@ -34,7 +31,6 @@
         "method": "PUT",
         "endpoints": [{
             "method": "PUT",
-            "baseUrl": "http://localhost:3015",
             "path": "/embeds/:id"
         }]
       },
@@ -43,7 +39,6 @@
         "method": "DELETE",
         "endpoints": [{
             "method": "DELETE",
-            "baseUrl": "http://localhost:3015",
             "path": "/embeds/:id"
         }]
       }

@@ -1,0 +1,18 @@
+test:
+  build: .
+  command: test
+  volumes:
+    - .:/rw_layerspec
+  links:
+    - mongo
+  env_file: .env.test
+
+mongo:
+  image: mongo
+  container_name: layerspec-mongo
+  command: --smallfiles
+  ports:
+    - '27017'
+
+redis:
+  image: redis

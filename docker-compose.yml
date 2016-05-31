@@ -1,23 +1,11 @@
 web:
-  build: .
-  command: bundle exec rails s -p 3030 -b '0.0.0.0'
-  volumes:
-    - .:/rw_layerspec
+  image: vizzuality/rw_layerspec:1.0.0
+  command: start
   ports:
-    - '3030:3030'
-  links:
-    - mongo
-  env_file: .env.development
-  environment:
-    RACK_ENV: development
-    RAILS_ENV: development
+    - '3030'
+  env_file: prod.env
 
-mongo:
-  image: mongo
-  container_name: layerspec-mongo
-  command: --smallfiles
-  ports:
-    - '27017'
-
-redis:
-  image: redis
+  log_driver: "gelf"
+  restart: always
+  log_opt:
+    gelf-address: "udp://172.31.40.76:12201"

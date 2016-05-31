@@ -15,3 +15,5 @@ ADD . /rw_layerspec
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 EXPOSE 3030
+
+ENTRYPOINT ["./entrypoint.sh"]
