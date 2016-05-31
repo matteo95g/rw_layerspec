@@ -13,8 +13,6 @@
 !/log/.keep
 !/tmp/.keep
 
-config/mongoid.yml
-
 # Ignore Byebug command history file.
 .byebug_history
 
