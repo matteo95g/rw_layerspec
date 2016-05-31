@@ -55,7 +55,7 @@ public/uploads
 .jhw-cache/
 
 # Secrets
-config/secrets.yml
+#config/secrets.yml
 .env
 .env.test
 .env.development
