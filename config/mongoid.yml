@@ -1,0 +1,29 @@
+development:
+  clients:
+    default:
+      database: rw_layerspec_development
+      hosts: mongodb://<%= ENV['MONGO_PORT_27017_TCP_ADDR'] %>:<%= ENV['MONGO_PORT_27017_TCP_PORT'] %>
+      options:
+        read:
+          mode: :primary
+        max_pool_size: 1
+
+test:
+  clients:
+    default:
+      database: rw_layerspec_test
+      hosts: mongodb://<%= ENV['MONGO_PORT_27017_TCP_ADDR'] %>:<%= ENV['MONGO_PORT_27017_TCP_PORT'] %>
+      options:
+        read:
+          mode: :primary
+        max_pool_size: 1
+
+production:
+  clients:
+    default:
+      database: rw_layerspec
+      hosts: mongodb://<%= ENV['MONGO_PORT_27017_TCP_ADDR'] %>:<%= ENV['MONGO_PORT_27017_TCP_PORT'] %>
+      options:
+        read:
+          mode: :primary
+        max_pool_size: 1

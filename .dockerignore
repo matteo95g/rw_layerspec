@@ -35,7 +35,7 @@ Thumbs.db
 config/database.yml
 config/env.yml
 config/app_config.yml
-config/mongoid.yml
+#config/mongoid.yml
 
 *.log
 tmp/
