@@ -18,11 +18,19 @@ test:
           mode: :primary
         max_pool_size: 1
 
+staging:
+  clients:
+    default:
+      hosts: mongodb://<%= ENV['MONGO_PORT_27017_TCP_USER']%>:<%= ENV['MONGO_PORT_27017_TCP_USER']%>@MONGO_PORT_27017_TCP_PASS<%= ENV['MONGO_PORT_27017_TCP_ADDR'] %>:<%= ENV['MONGO_PORT_27017_TCP_PORT'] %>/<%= ENV['MONGO_PORT_27017_TCP_DB'] %>
+      options:
+        read:
+          mode: :primary
+        max_pool_size: 1
+
 production:
   clients:
     default:
-      database: rw_layerspec
-      hosts: mongodb://<%= ENV['MONGO_PORT_27017_TCP_ADDR'] %>:<%= ENV['MONGO_PORT_27017_TCP_PORT'] %>
+      hosts: mongodb://<%= ENV['MONGO_PORT_27017_TCP_USER']%>:<%= ENV['MONGO_PORT_27017_TCP_USER']%>@MONGO_PORT_27017_TCP_PASS<%= ENV['MONGO_PORT_27017_TCP_ADDR'] %>:<%= ENV['MONGO_PORT_27017_TCP_PORT'] %>/<%= ENV['MONGO_PORT_27017_TCP_DB'] %>
       options:
         read:
           mode: :primary

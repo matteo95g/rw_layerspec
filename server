@@ -19,6 +19,17 @@ case "$1" in
                    --header 'content-type: application/json' \
                    --data "$(cat lib/files/service_develop.json)"
               ;;
+            staging)
+              echo "Startting server..."
+              bundle exec puma -e staging -C config/puma.rb
+              echo "Server running on port 3030 ;)!"
+              echo "Starting sidekiq..."
+              bundle exec sidekiq -e staging -C config/sidekiq.yml
+              ;;
+            *)
+              echo "Usage: server start {develop|production}" >&2
+              exit 1
+              ;;
             production)
               echo "Startting server..."
               bundle exec puma -e production -C config/puma.rb
@@ -74,7 +85,7 @@ case "$1" in
              --data "$(cat lib/files/service_heroku.json)"
         ;;
     *)
-        echo "Usage: server {start develop - production|stop|status|restart|register-service}" >&2
+        echo "Usage: server {start develop - production - staging|stop|status|restart|register-service}" >&2
         exit 1
         ;;
 esac
