@@ -2,8 +2,11 @@ development:
   clients:
     default:
       database: rw_layerspec_development
-      hosts: mongodb://<%= ENV['MONGO_PORT_27017_TCP_ADDR'] %>:<%= ENV['MONGO_PORT_27017_TCP_PORT'] %>
+      hosts:
+        - <%= ENV['MONGO_PORT_27017_TCP_ADDR'] %>:<%= ENV['MONGO_PORT_27017_TCP_PORT'] %>
       options:
+        user: <%= ENV['MONGO_PORT_27017_TCP_USER']%>
+        password: <%= ENV['MONGO_PORT_27017_TCP_PASS']%>
         read:
           mode: :primary
         max_pool_size: 1
@@ -12,8 +15,11 @@ test:
   clients:
     default:
       database: rw_layerspec_test
-      hosts: mongodb://<%= ENV['MONGO_PORT_27017_TCP_ADDR'] %>:<%= ENV['MONGO_PORT_27017_TCP_PORT'] %>
+      hosts:
+        - <%= ENV['MONGO_PORT_27017_TCP_ADDR'] %>:<%= ENV['MONGO_PORT_27017_TCP_PORT'] %>
       options:
+        user: <%= ENV['MONGO_PORT_27017_TCP_USER']%>
+        password: <%= ENV['MONGO_PORT_27017_TCP_PASS']%>
         read:
           mode: :primary
         max_pool_size: 1
@@ -21,8 +27,12 @@ test:
 staging:
   clients:
     default:
-      uri: mongodb://<%= ENV['MONGO_PORT_27017_TCP_USER']%>:<%= ENV['MONGO_PORT_27017_TCP_PASS']%>@<%= ENV['MONGO_PORT_27017_TCP_ADDR'] %>:<%= ENV['MONGO_PORT_27017_TCP_PORT'] %>/<%= ENV['MONGO_PORT_27017_TCP_DB'] %>
+      database: <%= ENV['MONGO_PORT_27017_TCP_DB'] %>
+      hosts:
+        - <%= ENV['MONGO_PORT_27017_TCP_ADDR'] %>:<%= ENV['MONGO_PORT_27017_TCP_PORT'] %>
       options:
+        user: <%= ENV['MONGO_PORT_27017_TCP_USER']%>
+        password: <%= ENV['MONGO_PORT_27017_TCP_PASS']%>
         read:
           mode: :primary
         max_pool_size: 1
@@ -30,8 +40,12 @@ staging:
 production:
   clients:
     default:
-      uri: mongodb://<%= ENV['MONGO_PORT_27017_TCP_USER']%>:<%= ENV['MONGO_PORT_27017_TCP_PASS']%>@<%= ENV['MONGO_PORT_27017_TCP_ADDR'] %>:<%= ENV['MONGO_PORT_27017_TCP_PORT'] %>/<%= ENV['MONGO_PORT_27017_TCP_DB'] %>
+      database: <%= ENV['MONGO_PORT_27017_TCP_DB'] %>
+      hosts:
+        - <%= ENV['MONGO_PORT_27017_TCP_ADDR'] %>:<%= ENV['MONGO_PORT_27017_TCP_PORT'] %>
       options:
+        user: <%= ENV['MONGO_PORT_27017_TCP_USER']%>
+        password: <%= ENV['MONGO_PORT_27017_TCP_PASS']%>
         read:
           mode: :primary
         max_pool_size: 1
