@@ -18,7 +18,7 @@ case "$1" in
         ;;
     start)
         echo "Running Start"
-        exec bundle exec puma -e production -C config/puma.rb
+        exec bundle exec puma -e ${RAILS_ENV} -C config/puma.rb
         ;;
     *)
         exec "$@"
