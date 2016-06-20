@@ -9,12 +9,64 @@ module V1
                       "data": "table"
                   }}}}
 
-      let!(:params)        {{"layer": { "name": "Second test layer", "data": data, "published": true, "status": 1 }}}
-      let!(:params_faild)  {{"layer": { "name": "Layer second one", "data": data }}}
-      let!(:update_params) {{"layer": { "name": "First test layer update", "slug": "test-layer-slug", "data": data }}}
+      let!(:params) {{"layer": {
+                      "application": "GFW",
+                      "name": "second-test-layer",
+                      "provider": "Cartodb",
+                      "category": "test category",
+                      "subcategory": "sub category",
+                      "iso": [
+                        "BRA",
+                        "AUS",
+                        "ESP"
+                      ],
+                      "analyzable": true,
+                      "group": "Jungle",
+                      "global": true,
+                      "info_window": false,
+                      "max_zoom": 20,
+                      "children": [
+                        "first child",
+                        "second child"
+                      ],
+                      "info": {
+                        "title": "Second test",
+                        "subtitle": "subtitle",
+                        "legend_template": "my template string",
+                        "info_window_template": "Tamplate infowindow",
+                        "z_index": 1,
+                        "color": "#000000",
+                        "dataset-id": "c867138c-eccf-4e57-8aa2-b62b87800ddf",
+                        "title_color": "#111111"
+                      },
+                      "display": {
+                        "display": true,
+                        "max_date": "2016-02-14",
+                        "min_date": "2012-01-12",
+                        "fit_to_geom": true
+                      },
+                      "custom_data": {
+                        "marks": {
+                          "type": "rect",
+                          "from": {
+                            "data": "table"
+                          }
+                        }
+                      },
+                      "status": "saved",
+                      "published": true
+                    }}}
+      let!(:params_provider) {{"layer": {
+                               "application": "test",
+                               "name": "third-test-layer",
+                               "provider": "Test"
+                              }}}
+
+      let!(:params_faild)  {{"layer": { "name": "Layer second one", "custom_data": data }}}
+      let!(:update_params) {{"layer": { "name": "First test layer update", "slug": "test-layer-slug", "custom_data": data }}}
 
       let!(:layer) {
-        Layer.create!(name: 'Layer second one', published: true, status: 1, app_type: 1, children: ['first_child', 'second_child'])
+        Layer.create!(name: 'Layer second one', published: true, status: 1, application: 'gfw', children: ['first_child', 'second_child'])
       }
 
       let!(:default_layer) {
@@ -30,7 +82,7 @@ module V1
         }
 
         let!(:enabled_layer) {
-          Layer.create!(name: 'Layer one', status: 1, published: true, app_type: 2)
+          Layer.create!(name: 'Layer one', status: 1, published: true, application: 'wrw')
         }
 
         let!(:unpublished_layer) {
@@ -48,14 +100,14 @@ module V1
           get '/layers?status=pending'
 
           expect(status).to eq(200)
-          expect(json.size).to eq(1)
+          expect(json.size).to eq(0)
         end
 
         it 'Show list of layers with active status' do
           get '/layers?status=active'
 
           expect(status).to eq(200)
-          expect(json.size).to eq(2)
+          expect(json.size).to eq(3)
         end
 
         it 'Show list of layers with disabled status' do
@@ -85,7 +137,7 @@ module V1
           get '/layers?app=GFW'
 
           expect(status).to eq(200)
-          expect(json.size).to eq(1)
+          expect(json.size).to eq(2)
         end
 
         it 'Show list of layers for app WRW' do
@@ -99,7 +151,7 @@ module V1
           get '/layers'
 
           expect(status).to eq(200)
-          expect(json.size).to eq(2)
+          expect(json.size).to eq(3)
         end
       end
 
@@ -124,7 +176,19 @@ module V1
         expect(status).to eq(201)
         expect(json['id']).to                        be_present
         expect(json['attributes']['slug']).to        eq('second-test-layer')
+        expect(json['attributes']['provider']).to    eq('cartodb')
+        expect(json['attributes']['application']).to eq('gfw')
         expect(json['attributes']['custom-data']).to eq({"marks"=>{"type"=>"rect", "from"=>{"data"=>"table"}}})
+      end
+
+      it 'Allows to create layer with not valid provider' do
+        post '/layers', params: params_provider
+
+        expect(status).to eq(201)
+        expect(json['id']).to                        be_present
+        expect(json['attributes']['slug']).to        eq('third-test-layer')
+        expect(json['attributes']['provider']).to    eq('not valid provider')
+        expect(json['attributes']['application']).to eq('not valid application')
       end
 
       it 'Name and slug validation' do
@@ -149,7 +213,7 @@ module V1
         delete "/layers/#{layer_id}"
 
         expect(status).to eq(200)
-        expect(json_main['message']).to           eq('Layer deleted')
+        expect(json_main['message']).to      eq('Layer deleted')
         expect(Layer.where(id: layer_id)).to be_empty
       end
 
@@ -157,7 +221,7 @@ module V1
         delete "/layers/#{layer_slug}"
 
         expect(status).to eq(200)
-        expect(json_main['message']).to               eq('Layer deleted')
+        expect(json_main['message']).to          eq('Layer deleted')
         expect(Layer.where(slug: layer_slug)).to be_empty
       end
     end

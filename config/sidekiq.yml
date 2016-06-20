@@ -3,6 +3,8 @@
 :logfile: ./log/sidekiq.log
 production:
   :concurrency: 24
+staging:
+  :concurrency: 24
 :queues:
   - default
   - [high_priority, 2]

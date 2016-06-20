@@ -1,4 +1,6 @@
 FROM ruby:2.3.0
+MAINTAINER Sebastian Schkudlara "sebastian.schkudlara@vizzuality.com"
+
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
 
 RUN mkdir /rw_layerspec

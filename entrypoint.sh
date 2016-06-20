@@ -12,9 +12,13 @@ case "$1" in
         rm -f tmp/pids/server.pid
         exec bundle exec rspec
         ;;
+    staging)
+        echo "Running Start"
+        exec bundle exec puma -e staging -C config/puma.rb
+        ;;
     start)
         echo "Running Start"
-        exec bundle exec puma -e production -C config/puma.rb
+        exec bundle exec puma -e ${RAILS_ENV} -C config/puma.rb
         ;;
     *)
         exec "$@"
