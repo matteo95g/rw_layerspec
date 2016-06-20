@@ -1,6 +1,6 @@
 # Resource Watch Layerspec Service
 
-[![Build Status](https://travis-ci.org/resource-watch/rw_layerspec.svg?branch=develop)](https://travis-ci.org/resource-watch/rw_layerspec) [![Code Climate](https://codeclimate.com/github/resource-watch/rw_layerspec/badges/gpa.svg)](https://codeclimate.com/github/resource-watch/rw_layerspec)
+[![Build Status](https://travis-ci.org/resource-watch/rw_layerspec.svg?branch=staging)](https://travis-ci.org/resource-watch/rw_layerspec) [![Code Climate](https://codeclimate.com/github/resource-watch/rw_layerspec/badges/gpa.svg)](https://codeclimate.com/github/resource-watch/rw_layerspec)
 
 TODO: Write a project description
 

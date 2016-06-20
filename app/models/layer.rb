@@ -1,7 +1,7 @@
 class Layer
-  APP      = %w(DEFAULT GFW WRW).freeze
+  APP      = %w(gfw wrw).freeze
   STATUS   = %w(pending saved failed deleted).freeze
-  PROVIDER = %w(CartoDb).freeze
+  PROVIDER = %w(cartodb).freeze
 
   include LayerData
 
@@ -13,6 +13,7 @@ class Layer
 
   before_validation(on: [:create, :update]) do
     check_slug
+    downcase_provider_app
   end
 
   validates :name, presence: true
@@ -21,19 +22,19 @@ class Layer
                                              message: 'invalid. Slug must contain at least one letter and no special character' }
   validates_uniqueness_of :name, :slug
 
-  scope :recent,             -> { order('updated_at DESC')   }
-  scope :filter_pending,     -> { where(status: 0)           }
-  scope :filter_saved,       -> { where(status: 1)           }
-  scope :filter_failed,      -> { where(status: 2)           }
-  scope :filter_inactives,   -> { where(status: 3)           }
-  scope :filter_published,   -> { where(published: true)     }
-  scope :filter_unpublished, -> { where(published: false)    }
-  scope :filter_apps,        -> (app) { where(app_type: app) }
+  scope :recent,             -> { order('updated_at DESC')      }
+  scope :filter_pending,     -> { where(status: 0)              }
+  scope :filter_saved,       -> { where(status: 1)              }
+  scope :filter_failed,      -> { where(status: 2)              }
+  scope :filter_inactives,   -> { where(status: 3)              }
+  scope :filter_published,   -> { where(published: true)        }
+  scope :filter_unpublished, -> { where(published: false)       }
+  scope :filter_apps,        -> (app) { where(application: app) }
 
   scope :filter_actives, -> { filter_saved.filter_published  }
 
   def app_txt
-    APP[app_type - 0]
+    application
   end
 
   def status_txt
@@ -41,7 +42,7 @@ class Layer
   end
 
   def provider_txt
-    PROVIDER[provider - 0]
+    provider
   end
 
   def deleted?
@@ -75,9 +76,8 @@ class Layer
       layerspecs = layerspecs.filter_unpublished if published.present? && published.include?('false')
 
       layerspecs = case layerspec_app
-                   when 'default' then layerspecs.filter_apps(0)
-                   when 'gfw'     then layerspecs.filter_apps(1)
-                   when 'wrw'     then layerspecs.filter_apps(2)
+                   when 'gfw'     then layerspecs.filter_apps('gfw')
+                   when 'wrw'     then layerspecs.filter_apps('wrw')
                    when 'all'     then layerspecs
                    else
                      layerspecs
@@ -98,5 +98,15 @@ class Layer
 
     def assign_slug
       self.slug = self.slug.downcase.parameterize
+    end
+
+    def downcase_provider_app
+      if Layer::APP.include?(self.application.downcase) && Layer::PROVIDER.include?(self.provider.downcase)
+        self.provider    = self.provider.downcase.parameterize    if self.provider.present?
+        self.application = self.application.downcase.parameterize if self.application.present?
+      else
+        self.application = 'not valid application'
+        self.provider    = 'not valid provider'
+      end
     end
 end
