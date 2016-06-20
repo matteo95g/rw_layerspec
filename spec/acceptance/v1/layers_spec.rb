@@ -100,14 +100,14 @@ module V1
           get '/layers?status=pending'
 
           expect(status).to eq(200)
-          expect(json.size).to eq(1)
+          expect(json.size).to eq(0)
         end
 
         it 'Show list of layers with active status' do
           get '/layers?status=active'
 
           expect(status).to eq(200)
-          expect(json.size).to eq(2)
+          expect(json.size).to eq(3)
         end
 
         it 'Show list of layers with disabled status' do
@@ -137,7 +137,7 @@ module V1
           get '/layers?app=GFW'
 
           expect(status).to eq(200)
-          expect(json.size).to eq(1)
+          expect(json.size).to eq(2)
         end
 
         it 'Show list of layers for app WRW' do
@@ -151,7 +151,7 @@ module V1
           get '/layers'
 
           expect(status).to eq(200)
-          expect(json.size).to eq(2)
+          expect(json.size).to eq(3)
         end
       end
 

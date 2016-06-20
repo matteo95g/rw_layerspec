@@ -22,7 +22,7 @@ module LayerData
     field :max_zoom,    type: :integer,  default: 0
     field :custom_data, type: :hash,     default: {}
     field :published,   type: :boolean,  default: false
-    field :status,      type: :integer,  default: 0
+    field :status,      type: :integer,  default: 1
   end
 
   class_methods do
