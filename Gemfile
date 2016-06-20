@@ -5,7 +5,7 @@ ruby '2.3.0'
 gem 'rails', '>= 5.0.0.beta3', '< 5.1'
 
 # change mongoid to stable version if stable version for rails 5 available
-gem 'mongoid', git: 'https://github.com/estolfo/mongoid.git', branch: 'MONGOID-4218-rails-5'
+gem 'mongoid',      git: 'https://github.com/estolfo/mongoid.git', branch: 'MONGOID-4218-rails-5'
 gem 'bson_ext'
 
 gem 'oj'
@@ -47,4 +47,4 @@ gem 'rack-cors'
 gem 'rack-attack'
 gem 'bcrypt'
 gem 'sidekiq'
-gem 'newrelic_rpm'
+# gem 'newrelic_rpm'
