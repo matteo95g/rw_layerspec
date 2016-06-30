@@ -16,7 +16,7 @@ test:
     default:
       database: rw_layerspec_test
       hosts:
-        - <%= ENV['LAYERSPEC_MONGO_PORT_27017_TCP_ADDR'] %>:<%= ENV['MONGO_PORT_27017_TCP_PORT'] %>
+        - <%= ENV['MONGO_PORT_27017_TCP_ADDR'] %>:<%= ENV['MONGO_PORT_27017_TCP_PORT'] %>
       options:
         user: <%= ENV['MONGO_PORT_27017_TCP_USER']%>
         password: <%= ENV['MONGO_PORT_27017_TCP_PASS']%>
