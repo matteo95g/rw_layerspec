@@ -10,5 +10,5 @@ environment ENV['RACK_ENV'] || 'development'
 preload_app!
 
 # Set master PID and state locations
-pidfile    'tmp/pids/puma.pid'
-state_path 'tmp/pids/puma.state'
+# pidfile    'tmp/pids/puma.pid'
+# state_path 'tmp/pids/puma.state'
