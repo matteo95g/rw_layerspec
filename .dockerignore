@@ -60,6 +60,7 @@ public/uploads
 .env.test
 .env.development
 .env.staging
+test.env
 
 # Simplecov
 coverage/

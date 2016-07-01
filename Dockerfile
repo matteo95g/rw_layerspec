@@ -10,7 +10,7 @@ RUN gem install bundler --no-ri --no-rdoc
 WORKDIR /rw_layerspec
 COPY Gemfile Gemfile
 COPY Gemfile.lock Gemfile.lock
-RUN bundle install --without development doc --jobs=4
+RUN bundle install
 
 ADD . /rw_layerspec
 
