@@ -19,3 +19,4 @@ mongo:
 
 redis:
   image: redis
+  container_name: redis_rw_layerspec
