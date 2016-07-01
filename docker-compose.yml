@@ -3,9 +3,15 @@ prod:
   command: start
   ports:
     - '3030'
+  links:
+    - redis
   env_file: prod.env
 
   log_driver: "gelf"
   restart: always
   log_opt:
     gelf-address: ${GELF_ADDRESS}
+
+redis:
+  image: redis
+  container_name: redis_rw_layerspec

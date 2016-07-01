@@ -4,21 +4,27 @@ set -e
 case "$1" in
     develop)
         echo "Running Development Server"
-        rm -f tmp/pids/server.pid
-        exec bundle exec rails s -p 3030 -b '0.0.0.0'
+        bundle exec rake dir:exists RAILS_ENV=development
+
+        export SECRET_KEY_BASE=$(rake secret)
+
+        exec ./server start develop
         ;;
     test)
         echo "Running Test"
-        rm -f tmp/pids/server.pid
-        exec bundle exec rspec
-        ;;
-    staging)
-        echo "Running Start"
-        exec bundle exec puma -e staging -C config/puma.rb
+        bundle exec rake dir:exists RAILS_ENV=test
+
+        export SECRET_KEY_BASE=$(rake secret)
+
+        exec rspec
         ;;
     start)
         echo "Running Start"
-        exec bundle exec puma -e ${RAILS_ENV} -C config/puma.rb
+        bundle exec rake dir:exists RAILS_ENV=production
+
+        export SECRET_KEY_BASE=$(rake secret)
+
+        exec ./server start production
         ;;
     *)
         exec "$@"

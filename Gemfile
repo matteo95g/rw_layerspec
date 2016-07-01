@@ -19,6 +19,7 @@ group :development, :test do
   gem 'faker'
   gem 'rubocop', require: false
   gem 'rspec-activejob'
+  gem 'dotenv-rails'
 end
 
 group :development do
@@ -26,7 +27,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'pry-rails'
-  gem 'mina'
+  # gem 'mina'
   gem 'brakeman', require: false
   gem 'annotate'
 end
@@ -39,12 +40,11 @@ end
 
 # Server
 gem 'puma'
-gem 'foreman'
-gem 'dotenv-rails'
+# gem 'foreman'
 gem 'redis', '~> 3.2'
 gem 'redis-namespace'
 gem 'rack-cors'
 gem 'rack-attack'
-gem 'bcrypt'
+# gem 'bcrypt'
 gem 'sidekiq'
-# gem 'newrelic_rpm'
+gem 'newrelic_rpm'
