@@ -23,6 +23,12 @@ module LayerData
     field :custom_data, type: :hash,     default: {}
     field :published,   type: :boolean,  default: false
     field :status,      type: :integer,  default: 1
+
+    # field :dataset_id, type: :string
+    # field :default, type: boolean
+    # field :description, type: :text
+    # field :layer_config, type: :hash,     default: {}
+    # field :legend_config, type: :hash,     default: {}
   end
 
   class_methods do
