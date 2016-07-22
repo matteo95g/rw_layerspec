@@ -2,19 +2,18 @@ source 'https://rubygems.org'
 
 ruby '2.3.0'
 
-gem 'rails', '>= 5.0.0.beta3', '< 5.1'
+gem 'rails', '~> 5.0.0'
 
-# change mongoid to stable version if stable version for rails 5 available
-gem 'mongoid',      git: 'https://github.com/estolfo/mongoid.git', branch: 'MONGOID-4218-rails-5'
+gem 'mongoid', '~> 6.0.0.beta'
 gem 'bson_ext'
 
 gem 'oj'
 gem 'oj_mimic_json'
-gem 'active_model_serializers', '~> 0.10.0.rc5'
+gem 'active_model_serializers', '~> 0.10.2'
 gem 'typhoeus', require: false
 
 group :development, :test do
-  gem 'rspec-rails', '3.5.0.beta2'
+  gem 'rspec-rails', '~> 3.5.1'
   gem 'byebug'
   gem 'faker'
   gem 'rubocop', require: false
