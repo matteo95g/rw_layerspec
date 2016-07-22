@@ -1,5 +1,5 @@
 class Layer
-  APP      = %w(gfw wrw).freeze
+  APP      = %w(gfw wrw prep).freeze
   STATUS   = %w(pending saved failed deleted).freeze
   PROVIDER = %w(cartodb).freeze
 
@@ -29,7 +29,8 @@ class Layer
   scope :filter_inactives,   -> { where(status: 3)              }
   scope :filter_published,   -> { where(published: true)        }
   scope :filter_unpublished, -> { where(published: false)       }
-  scope :filter_apps,        -> (app) { where(application: app) }
+
+  scope :filter_apps,        -> (app) { where(application: /.*#{app}.*/i) }
 
   scope :filter_actives, -> { filter_saved.filter_published  }
 
@@ -75,10 +76,8 @@ class Layer
       layerspecs = layerspecs.filter_published   if published.present? && published.include?('true')
       layerspecs = layerspecs.filter_unpublished if published.present? && published.include?('false')
 
-      layerspecs = case layerspec_app
-                   when 'gfw'     then layerspecs.filter_apps('gfw')
-                   when 'wrw'     then layerspecs.filter_apps('wrw')
-                   when 'all'     then layerspecs
+      layerspecs = if layerspec_app.present? && !layerspec_app.include?('all')
+                     layerspecs.filter_apps(layerspec_app)
                    else
                      layerspecs
                    end
@@ -101,7 +100,7 @@ class Layer
     end
 
     def downcase_provider_app
-      if Layer::APP.include?(self.application.downcase) && Layer::PROVIDER.include?(self.provider.downcase)
+      if Layer::APP.include?(self.application.downcase) || Layer::PROVIDER.include?(self.provider.downcase)
         self.provider    = self.provider.downcase.parameterize    if self.provider.present?
         self.application = self.application.downcase.parameterize if self.application.present?
       else

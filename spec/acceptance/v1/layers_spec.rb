@@ -82,7 +82,7 @@ module V1
         }
 
         let!(:enabled_layer) {
-          Layer.create!(name: 'Layer one', status: 1, published: true, application: 'wrw')
+          Layer.create!(name: 'Layer one', status: 1, published: true, application: 'Wrw')
         }
 
         let!(:unpublished_layer) {
@@ -134,7 +134,7 @@ module V1
         end
 
         it 'Show list of layers for app GFW' do
-          get '/layers?app=GFW'
+          get '/layers?app=GF'
 
           expect(status).to eq(200)
           expect(json.size).to eq(2)
@@ -145,6 +145,13 @@ module V1
 
           expect(status).to eq(200)
           expect(json.size).to eq(1)
+        end
+
+        it 'Show blank list of layers for not existing app' do
+          get '/layers?app=notexisting'
+
+          expect(status).to eq(200)
+          expect(json.size).to eq(0)
         end
 
         it 'Show list of layers' do
