@@ -6,6 +6,7 @@ class Layer
   include LayerData
 
   before_update :assign_slug
+  after_save    :update_dataset_info, if: 'default_changed? && dataset_id.present?'
 
   before_validation(on: :create) do
     set_uuid
@@ -21,6 +22,8 @@ class Layer
                                              allow_blank: true,
                                              message: 'invalid. Slug must contain at least one letter and no special character' }
   validates_uniqueness_of :name, :slug
+
+  validates_uniqueness_of :default, scope: [:dataset_id, :application], if: 'default?', message: 'Default layer for dataset must be unique'
 
   scope :recent,             -> { order('updated_at DESC')      }
   scope :filter_pending,     -> { where(status: 0)              }
@@ -107,5 +110,15 @@ class Layer
         self.application = 'not valid application'
         self.provider    = 'not valid provider'
       end
+    end
+
+    def update_dataset_info
+      layer_info = {}
+      layer_info['application'] = self.application
+      layer_info['default']     = self.default
+      layer_info['layer_id']    = self.id
+
+      # DatasetServiceJob.perform_later(self.dataset_id, layer_info) if ServiceSetting.auth_token.present?
+      LayerspecService.connect_to_dataset_service(self.dataset_id, layer_info) if ServiceSetting.auth_token.present?
     end
 end
