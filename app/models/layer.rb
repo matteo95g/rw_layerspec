@@ -118,7 +118,6 @@ class Layer
       layer_info['default']     = self.default
       layer_info['layer_id']    = self.id
 
-      # DatasetServiceJob.perform_later(self.dataset_id, layer_info) if ServiceSetting.auth_token.present?
-      LayerspecService.connect_to_dataset_service(self.dataset_id, layer_info) if ServiceSetting.auth_token.present?
+      DatasetServiceJob.perform_later(self.dataset_id, layer_info) if ServiceSetting.auth_token.present?
     end
 end
