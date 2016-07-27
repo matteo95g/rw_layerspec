@@ -7,6 +7,7 @@
         "method": "GET",
         "endpoints": [{
             "method": "GET",
+            "baseUrl": "hhttp://localhost:3030",
             "path": "/layers"
         }]
       },
@@ -15,6 +16,7 @@
         "method": "GET",
         "endpoints": [{
             "method": "GET",
+            "baseUrl": "hhttp://localhost:3030",
             "path": "/layers/:id"
         }]
       },
@@ -23,6 +25,7 @@
         "method": "POST",
         "endpoints": [{
             "method": "POST",
+            "baseUrl": "hhttp://localhost:3030",
             "path": "/layers"
         }]
       },
@@ -31,6 +34,7 @@
         "method": "PUT",
         "endpoints": [{
             "method": "PUT",
+            "baseUrl": "hhttp://localhost:3030",
             "path": "/layers/:id"
         }]
       },
@@ -39,6 +43,7 @@
         "method": "DELETE",
         "endpoints": [{
             "method": "DELETE",
+            "baseUrl": "hhttp://localhost:3030",
             "path": "/layers/:id"
         }]
       }
