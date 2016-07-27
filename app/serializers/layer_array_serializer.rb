@@ -1,5 +1,5 @@
 class LayerArraySerializer < ActiveModel::Serializer
-  attributes :id, :slug, :application, :name, :status, :published
+  attributes :id, :slug, :application, :name, :status, :published, :dataset_id, :default
 
   def application
     object.app_txt

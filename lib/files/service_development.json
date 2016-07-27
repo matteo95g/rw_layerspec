@@ -7,7 +7,7 @@
         "method": "GET",
         "endpoints": [{
             "method": "GET",
-            "baseUrl": "https://rw-layerspec.herokuapp.com",
+            "baseUrl": "hhttp://192.168.1.81:3030",
             "path": "/layers"
         }]
       },
@@ -16,7 +16,7 @@
         "method": "GET",
         "endpoints": [{
             "method": "GET",
-            "baseUrl": "https://rw-layerspec.herokuapp.com",
+            "baseUrl": "hhttp://192.168.1.81:3030",
             "path": "/layers/:id"
         }]
       },
@@ -25,7 +25,7 @@
         "method": "POST",
         "endpoints": [{
             "method": "POST",
-            "baseUrl": "https://rw-layerspec.herokuapp.com",
+            "baseUrl": "hhttp://192.168.1.81:3030",
             "path": "/layers"
         }]
       },
@@ -34,7 +34,7 @@
         "method": "PUT",
         "endpoints": [{
             "method": "PUT",
-            "baseUrl": "https://rw-layerspec.herokuapp.com",
+            "baseUrl": "hhttp://192.168.1.81:3030",
             "path": "/layers/:id"
         }]
       },
@@ -43,10 +43,10 @@
         "method": "DELETE",
         "endpoints": [{
             "method": "DELETE",
-            "baseUrl": "https://rw-layerspec.herokuapp.com",
+            "baseUrl": "hhttp://192.168.1.81:3030",
             "path": "/layers/:id"
         }]
       }
     ],
-    "swagger": null
+    "swagger": {}
 }
