@@ -1,6 +1,7 @@
 {
     "id": "rw_layerspec_v1",
     "name": "RW Layerspec v1",
+    "tags": ["rw"],
     "urls": [
       {
         "url": "/layers",
