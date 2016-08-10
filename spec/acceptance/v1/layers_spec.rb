@@ -112,16 +112,14 @@ module V1
           get '/layers?published=true'
 
           expect(status).to eq(200)
-          expect(json.size).to                                  eq(3)
-          expect(json[0]['attributes']['meta']['published']).to eq(true)
+          expect(json.size).to eq(3)
         end
 
         it 'Show list of layers with published status false' do
           get '/layers?published=false'
 
           expect(status).to eq(200)
-          expect(json.size).to                                  eq(2)
-          expect(json[0]['attributes']['meta']['published']).to eq(false)
+          expect(json.size).to eq(2)
         end
 
         it 'Show list of layers for app GFW' do
@@ -157,8 +155,8 @@ module V1
         get "/layers/#{layer_slug}"
 
         expect(status).to eq(200)
-        expect(json['attributes']['slug']).to           eq('layer-second-one')
-        expect(json['attributes']['meta']['status']).to eq('saved')
+        expect(json['attributes']['slug']).to  eq('layer-second-one')
+        expect(json_main['meta']['status']).to eq('saved')
       end
 
       it 'Show layer by id' do
@@ -175,7 +173,7 @@ module V1
         expect(json['attributes']['slug']).to          eq('second-test-layer')
         expect(json['attributes']['provider']).to      eq('cartodb')
         expect(json['attributes']['application']).to   eq('gfw')
-        expect(json['attributes']['legend-config']).to eq({"marks"=>{"type"=>"rect", "from"=>{"data"=>"table"}}})
+        expect(json['attributes']['legendConfig']).to eq({"marks"=>{"type"=>"rect", "from"=>{"data"=>"table"}}})
       end
 
       it 'Allows to create layer with not valid provider' do
