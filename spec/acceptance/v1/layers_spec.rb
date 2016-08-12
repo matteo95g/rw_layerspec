@@ -173,7 +173,7 @@ module V1
         expect(json['attributes']['slug']).to          eq('second-test-layer')
         expect(json['attributes']['provider']).to      eq('cartodb')
         expect(json['attributes']['application']).to   eq('gfw')
-        expect(json['attributes']['legend_config']).to eq({"marks"=>{"type"=>"rect", "from"=>{"data"=>"table"}}})
+        expect(json['attributes']['legend-config']).to eq({"marks"=>{"type"=>"rect", "from"=>{"data"=>"table"}}})
       end
 
       it 'Allows to create layer with not valid provider' do
