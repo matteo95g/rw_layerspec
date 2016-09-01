@@ -195,11 +195,17 @@ definitions:
           slug:
             type: string
             description: Slug (would be generated from title if empty)
+          dataset_id:
+            type: string
+            description: Id of dataset
+          default:
+            type: boolean
+            description: Default layer for configurated dataset
 
   Layers:
     type: array
     items:
-      $ref: '#/definitions/LayerArray'
+      $ref: '#/definitions/Layer'
 
   LayerArray:
     type: object
@@ -226,12 +232,6 @@ definitions:
       id:
         type: string
         description: Layer uuid
-      slug:
-        type: string
-        description: Slug of the layer
-      title:
-        type: string
-        description: Title of the layer
       meta:
         type: object
         properties:
@@ -247,6 +247,39 @@ definitions:
           created_at:
             type: string
             description: Date
+      attributes:
+        type: object
+        properties:
+          slug:
+            type: string
+            description: Slug of the layer
+          title:
+            type: string
+            description: Title of the layer
+          dataset-id:
+            type: string
+            description: Id of dataset
+          default:
+            type: boolean
+            description: Default layer for configurated dataset
+          provider:
+            type: string
+            description: Provider
+          iso:
+            type: array
+            description: Country iso
+          description:
+            type: string
+            description: Description
+          layer-config:
+            type: object
+            description: Json field for layer config
+          legend-config:
+            type: object
+            description: Json field for legend config
+          application-config:
+            type: object
+            description: Json field for application config
 
   Message:
     type: object
