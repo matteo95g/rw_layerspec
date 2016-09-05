@@ -2,7 +2,7 @@ require 'curb'
 require 'uri'
 require 'oj'
 
-class LayerspecService
+module LayerspecService
   class << self
     def connect_to_dataset_service(dataset_id, layer_info)
       params = { dataset: { dataset_attributes: { layer_info: layer_info } } }
