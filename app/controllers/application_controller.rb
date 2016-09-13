@@ -1,13 +1,15 @@
 class ApplicationController < ActionController::API
+  rescue_from Mongoid::Errors::DocumentNotFound, with: :record_not_found
+
   rescue_from Exception do |e|
     error(e)
   end
 
-  def routing_error
-    raise ActionController::RoutingError.new(params[:path])
-  end
-
   protected
+
+    def record_not_found
+      render json: { errors: [{ status: '404', title: 'Record not found' }] } ,  status: 404
+    end
 
     def error(e)
       if request.env["ORIGINAL_FULLPATH"] =~ /^\//
