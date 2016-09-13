@@ -43,6 +43,7 @@ module V1
 
       def set_layer
         @layer = Layer.find_by_id_or_slug(params[:id])
+        record_not_found if @layer.blank?
       end
 
       def layer_type_filter
