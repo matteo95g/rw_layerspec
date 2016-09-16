@@ -9,6 +9,7 @@ module V1
 
     def show
       render json: @layer, serializer: LayerSerializer, root: false, meta: { status: @layer.try(:status_txt),
+                                                                             published: @layer.try(:published),
                                                                              updated_at: @layer.try(:updated_at),
                                                                              created_at: @layer.try(:created_at) }
     end

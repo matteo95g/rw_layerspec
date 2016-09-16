@@ -117,6 +117,7 @@ class Layer
       layer_info['application'] = self.application
       layer_info['default']     = self.default
       layer_info['layer_id']    = self.id
+      layer_info['published']   = self.published
 
       # DatasetServiceJob.perform_later(self.dataset_id, layer_info) if ServiceSetting.auth_token.present?
       LayerspecService.connect_to_dataset_service(self.dataset_id, layer_info) if ServiceSetting.auth_token.present?

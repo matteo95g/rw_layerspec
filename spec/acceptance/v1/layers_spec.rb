@@ -155,8 +155,9 @@ module V1
         get "/layers/#{layer_slug}"
 
         expect(status).to eq(200)
-        expect(json['attributes']['slug']).to  eq('layer-second-one')
-        expect(json_main['meta']['status']).to eq('saved')
+        expect(json['attributes']['slug']).to     eq('layer-second-one')
+        expect(json_main['meta']['status']).to    eq('saved')
+        expect(json_main['meta']['published']).to eq(true)
       end
 
       it 'Show layer by id' do
