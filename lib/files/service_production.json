@@ -24,6 +24,7 @@
       {
         "url": "/layers",
         "method": "POST",
+        "authenticated": true,
         "endpoints": [{
             "method": "POST",
             "baseUrl": "hhttp://localhost:3030",
@@ -33,6 +34,7 @@
       {
         "url": "/layers/:id",
         "method": "PUT",
+        "authenticated": true,
         "endpoints": [{
             "method": "PUT",
             "baseUrl": "hhttp://localhost:3030",
@@ -42,6 +44,7 @@
       {
         "url": "/layers/:id",
         "method": "DELETE",
+        "authenticated": true,
         "endpoints": [{
             "method": "DELETE",
             "baseUrl": "hhttp://localhost:3030",
