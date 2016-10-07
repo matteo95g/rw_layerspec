@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ApplicationController < ActionController::API
   rescue_from Mongoid::Errors::DocumentNotFound, with: :record_not_found
 

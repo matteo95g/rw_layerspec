@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module V1
   class LayersController < ApplicationController
     before_action :set_layer,  only: [:show, :update, :destroy]

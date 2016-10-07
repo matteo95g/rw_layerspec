@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'curb'
 require 'uri'
 require 'oj'
@@ -5,7 +6,7 @@ require 'oj'
 module LayerspecService
   class << self
     def connect_to_dataset_service(dataset_id, layer_info)
-      params = { dataset: { dataset_attributes: { layer_info: layer_info } } }
+      params = { dataset: { layer_info: layer_info } }
       url    = URI.decode("#{Service::SERVICE_URL}/datasets/#{dataset_id}/layer")
 
       @c = Curl::Easy.http_put(URI.escape(url), Oj.dump(params)) do |curl|
