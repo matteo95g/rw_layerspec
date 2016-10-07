@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class LayerSerializer < ApplicationSerializer
   attributes :id, :slug, :application, :name, :default, :dataset_id, :provider, :iso, :description,
              :layer_config, :legend_config, :application_config

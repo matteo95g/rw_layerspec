@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Layer
   APP      = %w(gfw wrw prep).freeze
   STATUS   = %w(pending saved failed deleted).freeze

@@ -233,7 +233,7 @@ DEPENDENCIES
   puma
   rack-attack
   rack-cors
-  rails (~> 5.0.0)
+  rails (~> 5.0.0, < 5.1)
   redis (~> 3.2)
   redis-namespace
   rspec-activejob
@@ -246,7 +246,7 @@ DEPENDENCIES
   tzinfo-data
 
 RUBY VERSION
-   ruby 2.3.0p0
+   ruby 2.3.1p112
 
 BUNDLED WITH
-   1.12.4
+   1.13.1
