@@ -81,70 +81,70 @@ module V1
         }
 
         it 'Show list of all layers' do
-          get '/layers?status=all'
+          get '/layer?status=all'
 
           expect(status).to eq(200)
           expect(json.size).to eq(5)
         end
 
         it 'Show list of layers with pending status' do
-          get '/layers?status=pending'
+          get '/layer?status=pending'
 
           expect(status).to eq(200)
           expect(json.size).to eq(0)
         end
 
         it 'Show list of layers with active status' do
-          get '/layers?status=active'
+          get '/layer?status=active'
 
           expect(status).to eq(200)
           expect(json.size).to eq(3)
         end
 
         it 'Show list of layers with disabled status' do
-          get '/layers?status=disabled'
+          get '/layer?status=disabled'
 
           expect(status).to eq(200)
           expect(json.size).to eq(1)
         end
 
         it 'Show list of layers with published status true' do
-          get '/layers?published=true'
+          get '/layer?published=true'
 
           expect(status).to eq(200)
           expect(json.size).to eq(3)
         end
 
         it 'Show list of layers with published status false' do
-          get '/layers?published=false'
+          get '/layer?published=false'
 
           expect(status).to eq(200)
           expect(json.size).to eq(2)
         end
 
         it 'Show list of layers for app GFW' do
-          get '/layers?app=GF'
+          get '/layer?app=GF'
 
           expect(status).to eq(200)
           expect(json.size).to eq(2)
         end
 
         it 'Show list of layers for app WRW' do
-          get '/layers?app=wrw'
+          get '/layer?app=wrw'
 
           expect(status).to eq(200)
           expect(json.size).to eq(1)
         end
 
         it 'Show blank list of layers for not existing app' do
-          get '/layers?app=notexisting'
+          get '/layer?app=notexisting'
 
           expect(status).to eq(200)
           expect(json.size).to eq(0)
         end
 
         it 'Show list of layers' do
-          get '/layers'
+          get '/layer'
 
           expect(status).to eq(200)
           expect(json.size).to eq(3)
@@ -152,7 +152,7 @@ module V1
       end
 
       it 'Show layer by slug' do
-        get "/layers/#{layer_slug}"
+        get "/layer/#{layer_slug}"
 
         expect(status).to eq(200)
         expect(json['attributes']['slug']).to     eq('layer-second-one')
@@ -161,13 +161,13 @@ module V1
       end
 
       it 'Show layer by id' do
-        get "/layers/#{layer_id}"
+        get "/layer/#{layer_id}"
 
         expect(status).to eq(200)
       end
 
       it 'Allows to create second layer' do
-        post '/layers', params: params
+        post '/layer', params: params
 
         expect(status).to eq(201)
         expect(json['id']).to                          be_present
@@ -178,7 +178,7 @@ module V1
       end
 
       it 'Allows to create layer with not valid provider' do
-        post '/layers', params: params_provider
+        post '/layer', params: params_provider
 
         expect(status).to eq(201)
         expect(json['id']).to                        be_present
@@ -188,7 +188,7 @@ module V1
       end
 
       it 'Name and slug validation' do
-        post '/layers', params: params_faild
+        post '/layer', params: params_faild
 
         expect(status).to eq(422)
         expect(json_main['success']).to         eq(false)
@@ -197,7 +197,7 @@ module V1
       end
 
       it 'Allows to update layer' do
-        put "/layers/#{layer_slug}", params: update_params
+        put "/layer/#{layer_slug}", params: update_params
 
         expect(status).to eq(200)
         expect(json['id']).to                 eq(layer_id)
@@ -206,7 +206,7 @@ module V1
       end
 
       it 'Allows to delete layer by id' do
-        delete "/layers/#{layer_id}"
+        delete "/layer/#{layer_id}"
 
         expect(status).to eq(200)
         expect(json_main['message']).to      eq('Layer deleted')
@@ -214,7 +214,7 @@ module V1
       end
 
       it 'Allows to delete layer by slug' do
-        delete "/layers/#{layer_slug}"
+        delete "/layer/#{layer_slug}"
 
         expect(status).to eq(200)
         expect(json_main['message']).to          eq('Layer deleted')

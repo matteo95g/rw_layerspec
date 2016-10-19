@@ -3,48 +3,48 @@
     "name": "RW Layerspec v1",
     "urls": [
       {
-        "url": "/layers",
+        "url": "/layer",
         "method": "GET",
         "endpoints": [{
             "method": "GET",
             "baseUrl": "hhttp://192.168.1.81:3030",
-            "path": "/layers"
+            "path": "/layer"
         }]
       },
       {
-        "url": "/layers/:id",
+        "url": "/layer/:id",
         "method": "GET",
         "endpoints": [{
             "method": "GET",
             "baseUrl": "hhttp://192.168.1.81:3030",
-            "path": "/layers/:id"
+            "path": "/layer/:id"
         }]
       },
       {
-        "url": "/layers",
+        "url": "/layer",
         "method": "POST",
         "endpoints": [{
             "method": "POST",
             "baseUrl": "hhttp://192.168.1.81:3030",
-            "path": "/layers"
+            "path": "/layer"
         }]
       },
       {
-        "url": "/layers/:id",
+        "url": "/layer/:id",
         "method": "PUT",
         "endpoints": [{
             "method": "PUT",
             "baseUrl": "hhttp://192.168.1.81:3030",
-            "path": "/layers/:id"
+            "path": "/layer/:id"
         }]
       },
       {
-        "url": "/layers/:id",
+        "url": "/layer/:id",
         "method": "DELETE",
         "endpoints": [{
             "method": "DELETE",
             "baseUrl": "hhttp://192.168.1.81:3030",
-            "path": "/layers/:id"
+            "path": "/layer/:id"
         }]
       }
     ],
