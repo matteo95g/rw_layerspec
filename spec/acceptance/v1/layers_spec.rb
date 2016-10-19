@@ -196,8 +196,17 @@ module V1
         expect(json_main['message']['slug']).to eq(['is already taken'])
       end
 
-      it 'Allows to update layer' do
+      it 'Allows to update layer via put' do
         put "/layer/#{layer_slug}", params: update_params
+
+        expect(status).to eq(200)
+        expect(json['id']).to                 eq(layer_id)
+        expect(json['attributes']['name']).to eq('First test layer update')
+        expect(json['attributes']['slug']).to eq('test-layer-slug')
+      end
+
+      it 'Allows to update layer via patch' do
+        patch "/layer/#{layer_slug}", params: update_params
 
         expect(status).to eq(200)
         expect(json['id']).to                 eq(layer_id)

@@ -41,6 +41,15 @@
       },
       {
         "url": "/layer/:id",
+        "method": "PATCH",
+        "endpoints": [{
+            "method": "PATCH",
+            "baseUrl": "hhttp://localhost:3030",
+            "path": "/layer/:id"
+        }]
+      },
+      {
+        "url": "/layer/:id",
         "method": "DELETE",
         "endpoints": [{
             "method": "DELETE",

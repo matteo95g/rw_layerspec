@@ -40,6 +40,15 @@
       },
       {
         "url": "/layer/:id",
+        "method": "PATCH",
+        "endpoints": [{
+            "method": "PATCH",
+            "baseUrl": "hhttp://192.168.1.81:3030",
+            "path": "/layer/:id"
+        }]
+      },
+      {
+        "url": "/layer/:id",
         "method": "DELETE",
         "endpoints": [{
             "method": "DELETE",
