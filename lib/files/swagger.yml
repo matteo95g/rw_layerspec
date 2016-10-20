@@ -12,7 +12,7 @@ produces:
   - application/json
 
 paths:
-  /layers:
+  /layer:
     get:
       description: Returns all layers
       produces:
@@ -77,7 +77,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /layers/{id}:
+  /layer/{id}:
     get:
       description: Returns layer based on a single UUID or slug, if the geostore not exist return 404
       produces:

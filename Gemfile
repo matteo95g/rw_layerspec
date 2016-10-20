@@ -5,7 +5,7 @@ ruby '2.3.1'
 
 gem 'rails', '~> 5.0.0', '< 5.1'
 
-gem 'mongoid', '~> 6.0.0.beta'
+gem 'mongoid', '~> 6.0.1'
 gem 'bson_ext'
 
 gem 'oj'
