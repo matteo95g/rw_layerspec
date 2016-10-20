@@ -4,51 +4,61 @@
     "tags": ["rw"],
     "urls": [
       {
-        "url": "/layers",
+        "url": "/layer",
         "method": "GET",
         "endpoints": [{
             "method": "GET",
             "baseUrl": "hhttp://localhost:3030",
-            "path": "/layers"
+            "path": "/layer"
         }]
       },
       {
-        "url": "/layers/:id",
+        "url": "/layer/:id",
         "method": "GET",
         "endpoints": [{
             "method": "GET",
             "baseUrl": "hhttp://localhost:3030",
-            "path": "/layers/:id"
+            "path": "/layer/:id"
         }]
       },
       {
-        "url": "/layers",
+        "url": "/layer",
         "method": "POST",
         "authenticated": true,
         "endpoints": [{
             "method": "POST",
             "baseUrl": "hhttp://localhost:3030",
-            "path": "/layers"
+            "path": "/layer"
         }]
       },
       {
-        "url": "/layers/:id",
+        "url": "/layer/:id",
         "method": "PUT",
         "authenticated": true,
         "endpoints": [{
             "method": "PUT",
             "baseUrl": "hhttp://localhost:3030",
-            "path": "/layers/:id"
+            "path": "/layer/:id"
         }]
       },
       {
-        "url": "/layers/:id",
+        "url": "/layer/:id",
+        "method": "PATCH",
+        "authenticated": true,
+        "endpoints": [{
+            "method": "PATCH",
+            "baseUrl": "hhttp://localhost:3030",
+            "path": "/layer/:id"
+        }]
+      },
+      {
+        "url": "/layer/:id",
         "method": "DELETE",
         "authenticated": true,
         "endpoints": [{
             "method": "DELETE",
             "baseUrl": "hhttp://localhost:3030",
-            "path": "/layers/:id"
+            "path": "/layer/:id"
         }]
       }
     ],
@@ -67,7 +77,7 @@
         "application/json"
       ],
       "paths": {
-        "/layers": {
+        "/layer": {
           "get": {
             "description": "Returns all layers",
             "produces": [
@@ -165,7 +175,7 @@
             }
           }
         },
-        "/layers/{id}": {
+        "/layer/{id}": {
           "get": {
             "description": "Returns layer based on a single UUID or slug, if the geostore not exist return 404",
             "produces": [
