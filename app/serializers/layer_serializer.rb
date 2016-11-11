@@ -4,7 +4,7 @@ class LayerSerializer < ApplicationSerializer
              :layerConfig, :legendConfig, :applicationConfig
 
   def application
-    object.app_txt
+    object.try(:app_txt)
   end
 
   def datasetId
@@ -12,7 +12,7 @@ class LayerSerializer < ApplicationSerializer
   end
 
   def provider
-    object.provider_txt
+    object.try(:provider_txt)
   end
 
   def layerConfig

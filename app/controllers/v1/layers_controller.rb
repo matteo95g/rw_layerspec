@@ -55,7 +55,7 @@ module V1
       end
 
       def layer_type_filter
-        params.permit(:status, :published, :app)
+        params.permit(:status, :published, :app, :dataset)
       end
 
       def layer_params
