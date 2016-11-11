@@ -34,7 +34,7 @@ class Layer
   scope :filter_published,   -> { where(published: true)        }
   scope :filter_unpublished, -> { where(published: false)       }
 
-  scope :filter_apps,        -> (app) { where(application: /.*#{app}.*/i) }
+  scope :filter_apps,        ->(app) { where(application: /.*#{app}.*/i) }
 
   scope :filter_actives, -> { filter_saved.filter_published  }
 
@@ -55,7 +55,7 @@ class Layer
   end
 
   class << self
-    def find_by_id_or_slug(param)
+    def set_by_id_or_slug(param)
       layerspec_id = self.or({ slug: param }, { id: param }).pluck(:id).min
       find(layerspec_id) rescue nil
     end
