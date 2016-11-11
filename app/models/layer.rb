@@ -26,17 +26,17 @@ class Layer
 
   validates_uniqueness_of :default, scope: [:dataset_id, :application], if: 'default?', message: 'Default layer for dataset must be unique'
 
-  scope :recent,             -> { order('updated_at DESC')      }
-  scope :filter_pending,     -> { where(status: 0)              }
-  scope :filter_saved,       -> { where(status: 1)              }
-  scope :filter_failed,      -> { where(status: 2)              }
-  scope :filter_inactives,   -> { where(status: 3)              }
-  scope :filter_published,   -> { where(published: true)        }
-  scope :filter_unpublished, -> { where(published: false)       }
+  scope :recent,             -> { order('updated_at DESC')       }
+  scope :filter_pending,     -> { where(status: 0)               }
+  scope :filter_saved,       -> { where(status: 1)               }
+  scope :filter_failed,      -> { where(status: 2)               }
+  scope :filter_inactives,   -> { where(status: 3)               }
+  scope :filter_published,   -> { where(published: true)         }
+  scope :filter_unpublished, -> { where(published: false)        }
+  scope :filter_actives,     -> { filter_saved.filter_published  }
 
-  scope :filter_apps,        ->(app) { where(application: /.*#{app}.*/i) }
-
-  scope :filter_actives, -> { filter_saved.filter_published  }
+  scope :filter_apps, ->(app)        { where(application: /.*#{app}.*/i) }
+  scope :by_dataset,  ->(dataset_id) { where(dataset_id: dataset_id)     }
 
   def app_txt
     application
@@ -64,8 +64,10 @@ class Layer
       status        = options['status']       if options['status'].present?
       published     = options['published']    if options['published'].present?
       layerspec_app = options['app'].downcase if options['app'].present?
+      dataset       = options['dataset']      if options['dataset'].present?
 
       layerspecs = recent
+      layerspecs = layerspecs.by_dataset(dataset) if dataset.present?
 
       layerspecs = case status
                    when 'pending'  then layerspecs.filter_pending

@@ -57,11 +57,11 @@ module V1
       let!(:update_params) {{"layer": { "name": "First test layer update", "slug": "test-layer-slug", "application_config": data }}}
 
       let!(:layer) {
-        Layer.create!(name: 'Layer second one', published: true, status: 1, application: 'gfw')
+        Layer.create!(name: 'Layer second one', published: true, status: 1, application: 'gfw', dataset_id: 'c867138c-eccf-4e57-8aa2-b62b87800ddg')
       }
 
       let!(:default_layer) {
-        Layer.create!(name: 'Layer first one', published: true)
+        Layer.create!(name: 'Layer first one', published: true, dataset_id: 'c867138c-eccf-4e57-8aa2-b62b87800ddg')
       }
 
       let!(:layer_id)   { layer.id   }
@@ -148,6 +148,20 @@ module V1
 
           expect(status).to eq(200)
           expect(json.size).to eq(3)
+        end
+
+        it 'Filter by existing dataset' do
+          get '/layer?dataset=c867138c-eccf-4e57-8aa2-b62b87800ddg'
+
+          expect(status).to eq(200)
+          expect(json.size).to eq(2)
+        end
+
+        it 'Filter by not existing dataset' do
+          get '/layer?dataset=c867138c-eccf-4e57-8aa2-b62b87800ddf'
+
+          expect(status).to eq(200)
+          expect(json.size).to eq(0)
         end
       end
 
