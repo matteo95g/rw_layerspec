@@ -8,7 +8,7 @@
         "method": "GET",
         "endpoints": [{
             "method": "GET",
-            "baseUrl": "hhttp://localhost:3030",
+            "baseUrl": "http://localhost:3030",
             "path": "/layer"
         }]
       },
@@ -17,7 +17,7 @@
         "method": "GET",
         "endpoints": [{
             "method": "GET",
-            "baseUrl": "hhttp://localhost:3030",
+            "baseUrl": "http://localhost:3030",
             "path": "/layer/:id"
         }]
       },
@@ -26,7 +26,7 @@
         "method": "GET",
         "endpoints": [{
             "method": "GET",
-            "baseUrl": "hhttp://192.168.1.81:3030",
+            "baseUrl": "http://localhost:3030",
             "path": "/dataset/:dataset_id/layer"
         }]
       },
@@ -35,8 +35,17 @@
         "method": "POST",
         "endpoints": [{
             "method": "POST",
-            "baseUrl": "hhttp://localhost:3030",
+            "baseUrl": "http://localhost:3030",
             "path": "/layer"
+        }]
+      },
+      {
+        "url": "/layer/find-by-ids",
+        "method": "POST",
+        "endpoints": [{
+            "method": "POST",
+            "baseUrl": "http://localhost:3030",
+            "path": "/layer/find-by-ids"
         }]
       },
       {
@@ -44,7 +53,7 @@
         "method": "PUT",
         "endpoints": [{
             "method": "PUT",
-            "baseUrl": "hhttp://localhost:3030",
+            "baseUrl": "http://localhost:3030",
             "path": "/layer/:id"
         }]
       },
@@ -53,7 +62,7 @@
         "method": "PATCH",
         "endpoints": [{
             "method": "PATCH",
-            "baseUrl": "hhttp://localhost:3030",
+            "baseUrl": "http://localhost:3030",
             "path": "/layer/:id"
         }]
       },
@@ -62,7 +71,7 @@
         "method": "DELETE",
         "endpoints": [{
             "method": "DELETE",
-            "baseUrl": "hhttp://localhost:3030",
+            "baseUrl": "http://localhost:3030",
             "path": "/layer/:id"
         }]
       }
