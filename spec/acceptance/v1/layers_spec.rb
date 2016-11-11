@@ -13,14 +13,14 @@ module V1
                       "application": "GFW",
                       "name": "second-test-layer",
                       "provider": "Cartodb",
-                      "dataset_id": "c867138c-eccf-4e57-8aa2-b62b87800ddf",
+                      "datasetId": "c867138c-eccf-4e57-8aa2-b62b87800ddf",
                       "description": "Lorem ipsum dolor...",
                       "iso": [
                         "BRA",
                         "AUS",
                         "ESP"
                       ],
-                      "layer_config": {
+                      "layerConfig": {
                         "display": true,
                         "max_date": "2016-02-14",
                         "min_date": "2012-01-12",
@@ -34,7 +34,7 @@ module V1
                           }
                         }
                       },
-                      "application_config": {
+                      "applicationConfig": {
                         "config one": {
                           "type": "lorem",
                           "from": {
@@ -174,7 +174,7 @@ module V1
         expect(json['attributes']['slug']).to          eq('second-test-layer')
         expect(json['attributes']['provider']).to      eq('cartodb')
         expect(json['attributes']['application']).to   eq('gfw')
-        expect(json['attributes']['legend-config']).to eq({"marks"=>{"type"=>"rect", "from"=>{"data"=>"table"}}})
+        expect(json['attributes']['legendConfig']).to eq({"marks"=>{"type"=>"rect", "from"=>{"data"=>"table"}}})
       end
 
       it 'Allows to create layer with not valid provider' do
