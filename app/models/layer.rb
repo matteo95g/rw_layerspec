@@ -35,8 +35,8 @@ class Layer
   scope :filter_unpublished, -> { where(published: false)        }
   scope :filter_actives,     -> { filter_saved.filter_published  }
 
-  scope :filter_apps, ->(app)        { where(application: /.*#{app}.*/i) }
-  scope :by_dataset,  ->(dataset_id) { where(dataset_id: dataset_id)     }
+  scope :filter_apps,    ->(app)        { where(application: /.*#{app}.*/i) }
+  scope :filter_dataset, ->(dataset_id) { where(dataset_id: dataset_id)     }
 
   def app_txt
     application
@@ -67,7 +67,7 @@ class Layer
       dataset       = options['dataset']      if options['dataset'].present?
 
       layerspecs = recent
-      layerspecs = layerspecs.by_dataset(dataset) if dataset.present?
+      layerspecs = layerspecs.filter_dataset(dataset) if dataset.present?
 
       layerspecs = case status
                    when 'pending'  then layerspecs.filter_pending
