@@ -7,7 +7,7 @@ class Layer
   include LayerData
 
   before_update :assign_slug
-  after_save    :update_dataset_info, if: 'default_changed? && dataset_id.present?'
+  # after_save    :update_dataset_info, if: 'default_changed? && dataset_id.present?'
 
   before_validation(on: :create) do
     set_uuid
