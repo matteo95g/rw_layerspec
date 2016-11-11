@@ -8,6 +8,11 @@ module V1
       render json: @layers, each_serializer: LayerSerializer, meta: { layersCount: @layers.size }
     end
 
+    def by_datasets
+      @layers = Layer.fetch_by_datasets(layer_datasets_filter)
+      render json: @layers, each_serializer: LayerSerializer, meta: { layersCount: @layers.size }
+    end
+
     def show
       render json: @layer, serializer: LayerSerializer, meta: { status: @layer.try(:status_txt),
                                                                 published: @layer.try(:published),
@@ -56,6 +61,10 @@ module V1
 
       def layer_type_filter
         params.permit(:status, :published, :app, :dataset)
+      end
+
+      def layer_datasets_filter
+        params.require(:layer).permit(ids: [], app: [])
       end
 
       def layer_params

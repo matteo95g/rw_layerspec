@@ -35,8 +35,11 @@ class Layer
   scope :filter_unpublished, -> { where(published: false)        }
   scope :filter_actives,     -> { filter_saved.filter_published  }
 
-  scope :filter_apps,    ->(app)        { where(application: /.*#{app}.*/i) }
-  scope :filter_dataset, ->(dataset_id) { where(dataset_id: dataset_id)     }
+  scope :filter_app,     ->(app)         { where(application: /.*#{app}.*/i) }
+  scope :filter_dataset, ->(dataset_id)  { where(dataset_id: dataset_id)     }
+
+  scope :filter_apps,     ->(apps)        { where({ application: { "$in" => apps        } }) }
+  scope :filter_datasets, ->(dataset_ids) { where({ dataset_id:  { "$in" => dataset_ids } }) }
 
   def app_txt
     application
@@ -83,7 +86,23 @@ class Layer
       layerspecs = layerspecs.filter_unpublished if published.present? && published.include?('false')
 
       layerspecs = if layerspec_app.present? && !layerspec_app.include?('all')
-                     layerspecs.filter_apps(layerspec_app)
+                     layerspecs.filter_app(layerspec_app)
+                   else
+                     layerspecs
+                   end
+      layerspecs
+    end
+
+    def fetch_by_datasets(options)
+      ids  = options['ids']                 if options['ids'].present?
+      apps = options['app'].map(&:downcase) if options['app'].present?
+
+      layerspecs = recent
+      layerspecs = layerspecs.filter_actives
+      layerspecs = layerspecs.filter_datasets(ids) if ids.present?
+
+      layerspecs = if apps.present? && !apps.include?('all')
+                     layerspecs.filter_apps(apps)
                    else
                      layerspecs
                    end
