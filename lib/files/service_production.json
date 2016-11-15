@@ -22,6 +22,15 @@
         }]
       },
       {
+        "url": "/dataset/:dataset_id/layer/:id",
+        "method": "GET",
+        "endpoints": [{
+            "method": "GET",
+            "baseUrl": "http://localhost:3030",
+            "path": "/dataset/:dataset_id/layer/:id"
+        }]
+      },
+      {
         "url": "/dataset/:dataset_id/layer",
         "method": "GET",
         "endpoints": [{

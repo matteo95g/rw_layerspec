@@ -56,7 +56,9 @@ module V1
 
       def set_layer
         @layer = Layer.set_by_id_or_slug(params[:id])
-        record_not_found if @layer.blank?
+        if @layer.blank? || (params[:dataset_id].present? && @layer.dataset_id != params[:dataset_id])
+          record_not_found
+        end
       end
 
       def layer_type_filter
@@ -68,7 +70,9 @@ module V1
       end
 
       def layer_params
-        params.require(:layer).permit!
+        params.require(:layer).permit!.tap do |layer_params|
+          layer_params[:dataset_id] = params[:dataset_id] if params[:dataset_id].present?
+        end
       end
   end
 end
