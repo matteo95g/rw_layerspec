@@ -64,10 +64,10 @@ class Layer
     end
 
     def fetch_all(options)
-      status        = options['status']       if options['status'].present?
-      published     = options['published']    if options['published'].present?
-      layerspec_app = options['app'].downcase if options['app'].present?
-      dataset       = options['dataset']      if options['dataset'].present?
+      status        = options['status'].downcase if options['status'].present?
+      published     = options['published']       if options['published'].present?
+      layerspec_app = options['app'].downcase    if options['app'].present?
+      dataset       = options['dataset']         if options['dataset'].present?
 
       layerspecs = recent
       layerspecs = layerspecs.filter_dataset(dataset) if dataset.present?

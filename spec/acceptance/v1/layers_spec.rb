@@ -47,6 +47,43 @@ module V1
                       "default": true
                     }}}
 
+      let!(:new_params) {{"layer": {
+                          "application": "GFW",
+                          "name": "second-test-layer",
+                          "provider": "Cartodb",
+                          "description": "Lorem ipsum dolor...",
+                          "iso": [
+                            "BRA",
+                            "AUS",
+                            "ESP"
+                          ],
+                          "layerConfig": {
+                            "display": true,
+                            "max_date": "2016-02-14",
+                            "min_date": "2012-01-12",
+                            "fit_to_geom": true
+                          },
+                          "legend_config": {
+                            "marks": {
+                              "type": "rect",
+                              "from": {
+                                "data": "table"
+                              }
+                            }
+                          },
+                          "applicationConfig": {
+                            "config one": {
+                              "type": "lorem",
+                              "from": {
+                                "data": "table"
+                              }
+                            }
+                          },
+                          "status": 1,
+                          "published": true,
+                          "default": true
+                        }}}
+
       let!(:params_provider) {{"layer": {
                                "application": "test",
                                "name": "third-test-layer",
@@ -240,8 +277,41 @@ module V1
         expect(status).to eq(200)
       end
 
+      it 'Show layer by dataset and slug' do
+        get "/dataset/c867138c-eccf-4e57-8aa2-b62b87800ddg/layer/#{layer_slug}"
+
+        expect(status).to eq(200)
+        expect(json['attributes']['slug']).to     eq('layer-second-one')
+        expect(json_main['meta']['status']).to    eq('saved')
+        expect(json_main['meta']['published']).to eq(true)
+      end
+
+      it 'Show layer by dataset and id' do
+        get "/dataset/c867138c-eccf-4e57-8aa2-b62b87800ddg/layer/#{layer_id}"
+
+        expect(status).to eq(200)
+      end
+
+      it 'Not valid layer by dataset and id' do
+        get "/dataset/c867138c-eccf-4e57-8aa2-b62b87800ddf/layer/#{layer_id}"
+
+        expect(status).to eq(404)
+      end
+
       it 'Allows to create second layer' do
         post '/layer', params: params
+
+        expect(status).to eq(201)
+        expect(json['id']).to                          be_present
+        expect(json['attributes']['slug']).to          eq('second-test-layer')
+        expect(json['attributes']['provider']).to      eq('cartodb')
+        expect(json['attributes']['dataset']).to       eq('c867138c-eccf-4e57-8aa2-b62b87800ddf')
+        expect(json['attributes']['application']).to   eq('gfw')
+        expect(json['attributes']['legendConfig']).to eq({"marks"=>{"type"=>"rect", "from"=>{"data"=>"table"}}})
+      end
+
+      it 'Allows to create dataset layer' do
+        post '/dataset/c867138c-eccf-4e57-8aa2-b62b87800ddf/layer', params: new_params
 
         expect(status).to eq(201)
         expect(json['id']).to                          be_present
@@ -289,6 +359,24 @@ module V1
         expect(json['attributes']['slug']).to eq('test-layer-slug')
       end
 
+      it 'Allows to update dataset layer via put' do
+        put "/dataset/c867138c-eccf-4e57-8aa2-b62b87800ddg/layer/#{layer_slug}", params: update_params
+
+        expect(status).to eq(200)
+        expect(json['id']).to                 eq(layer_id)
+        expect(json['attributes']['name']).to eq('First test layer update')
+        expect(json['attributes']['slug']).to eq('test-layer-slug')
+      end
+
+      it 'Allows to update dataset layer via patch' do
+        patch "/dataset/c867138c-eccf-4e57-8aa2-b62b87800ddg/layer/#{layer_slug}", params: update_params
+
+        expect(status).to eq(200)
+        expect(json['id']).to                 eq(layer_id)
+        expect(json['attributes']['name']).to eq('First test layer update')
+        expect(json['attributes']['slug']).to eq('test-layer-slug')
+      end
+
       it 'Allows to delete layer by id' do
         delete "/layer/#{layer_id}"
 
@@ -299,6 +387,22 @@ module V1
 
       it 'Allows to delete layer by slug' do
         delete "/layer/#{layer_slug}"
+
+        expect(status).to eq(200)
+        expect(json_main['message']).to          eq('Layer deleted')
+        expect(Layer.where(slug: layer_slug)).to be_empty
+      end
+
+      it 'Allows to delete layer by dataset and id' do
+        delete "/dataset/c867138c-eccf-4e57-8aa2-b62b87800ddg/layer/#{layer_id}"
+
+        expect(status).to eq(200)
+        expect(json_main['message']).to      eq('Layer deleted')
+        expect(Layer.where(id: layer_id)).to be_empty
+      end
+
+      it 'Allows to delete layer by dataset and slug' do
+        delete "/dataset/c867138c-eccf-4e57-8aa2-b62b87800ddg/layer/#{layer_slug}"
 
         expect(status).to eq(200)
         expect(json_main['message']).to          eq('Layer deleted')
