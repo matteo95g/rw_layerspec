@@ -87,6 +87,36 @@
             "baseUrl": "http://localhost:3030",
             "path": "/layer/:id"
         }]
+      },
+      {
+        "url": "/dataset/:dataset_id/layer/:id",
+        "method": "PUT",
+        "authenticated": true,
+        "endpoints": [{
+            "method": "PUT",
+            "baseUrl": "http://localhost:3030",
+            "path": "/dataset/:dataset_id/layer/:id"
+        }]
+      },
+      {
+        "url": "/dataset/:dataset_id/layer/:id",
+        "method": "PATCH",
+        "authenticated": true,
+        "endpoints": [{
+            "method": "PATCH",
+            "baseUrl": "http://localhost:3030",
+            "path": "/dataset/:dataset_id/layer/:id"
+        }]
+      },
+      {
+        "url": "/dataset/:dataset_id/layer/:id",
+        "method": "DELETE",
+        "authenticated": true,
+        "endpoints": [{
+            "method": "DELETE",
+            "baseUrl": "http://localhost:3030",
+            "path": "/dataset/:dataset_id/layer/:id"
+        }]
       }
     ],
     "swagger": {

@@ -392,6 +392,22 @@ module V1
         expect(json_main['message']).to          eq('Layer deleted')
         expect(Layer.where(slug: layer_slug)).to be_empty
       end
+
+      it 'Allows to delete layer by dataset and id' do
+        delete "/dataset/c867138c-eccf-4e57-8aa2-b62b87800ddg/layer/#{layer_id}"
+
+        expect(status).to eq(200)
+        expect(json_main['message']).to      eq('Layer deleted')
+        expect(Layer.where(id: layer_id)).to be_empty
+      end
+
+      it 'Allows to delete layer by dataset and slug' do
+        delete "/dataset/c867138c-eccf-4e57-8aa2-b62b87800ddg/layer/#{layer_slug}"
+
+        expect(status).to eq(200)
+        expect(json_main['message']).to          eq('Layer deleted')
+        expect(Layer.where(slug: layer_slug)).to be_empty
+      end
     end
   end
 end
