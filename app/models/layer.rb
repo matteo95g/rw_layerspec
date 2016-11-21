@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 class Layer
-  APP      = %w(gfw wrw prep).freeze
+  APP      = %w(gfw wrw prep data4sdgs aqueduct gfw-climate rw forest-atlas).freeze
   STATUS   = %w(pending saved failed deleted).freeze
-  PROVIDER = %w(cartodb).freeze
+  PROVIDER = %w(cartodb rwjson featureservice csv wms).freeze
 
   include LayerData
 
   before_update :assign_slug
-  # after_save    :update_dataset_info, if: 'default_changed? && dataset_id.present?'
 
   before_validation(on: :create) do
     set_uuid
@@ -132,16 +131,5 @@ class Layer
         self.application = 'not valid application'
         self.provider    = 'not valid provider'
       end
-    end
-
-    def update_dataset_info
-      layer_info = {}
-      layer_info['application'] = self.application
-      layer_info['default']     = self.default
-      layer_info['layer_id']    = self.id
-      layer_info['published']   = self.published
-
-      # DatasetServiceJob.perform_later(self.dataset_id, layer_info) if ServiceSetting.auth_token.present?
-      LayerspecService.connect_to_dataset_service(self.dataset_id, layer_info) if ServiceSetting.auth_token.present?
     end
 end
