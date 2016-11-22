@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 class Layer
-  APP      = %w(gfw wrw prep data4sdgs aqueduct gfw-climate rw forest-atlas).freeze
   STATUS   = %w(pending saved failed deleted).freeze
   PROVIDER = %w(cartodb rwjson featureservice csv wms).freeze
 
@@ -14,7 +13,8 @@ class Layer
 
   before_validation(on: [:create, :update]) do
     check_slug
-    downcase_provider_app
+    downcase_provider
+    downcase_app
   end
 
   validates :name, presence: true
@@ -123,13 +123,15 @@ class Layer
       self.slug = self.slug.downcase.parameterize
     end
 
-    def downcase_provider_app
-      if Layer::APP.include?(self.application.downcase) || Layer::PROVIDER.include?(self.provider.downcase)
-        self.provider    = self.provider.downcase.parameterize    if self.provider.present?
-        self.application = self.application.downcase.parameterize if self.application.present?
+    def downcase_app
+      self.application = self.application.downcase.parameterize if self.application.present?
+    end
+
+    def downcase_provider
+      if Layer::PROVIDER.include?(self.provider.downcase)
+        self.provider = self.provider.downcase.parameterize if self.provider.present?
       else
-        self.application = 'not valid application'
-        self.provider    = 'not valid provider'
+        self.errors.add(:provider, 'not valid')
       end
     end
 end

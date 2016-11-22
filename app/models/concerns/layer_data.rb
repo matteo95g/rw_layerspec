@@ -20,6 +20,7 @@ module LayerData
     field :legend_config,      type: :hash,    default: {}
     field :application_config, type: :hash,    default: {}
     field :iso,                type: :array,   default: []
+    field :user_id,            type: :string
   end
 
   class_methods do
