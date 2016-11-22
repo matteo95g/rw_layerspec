@@ -68,7 +68,7 @@ class Layer
       layerspec_app = options['app'].downcase    if options['app'].present?
       dataset       = options['dataset']         if options['dataset'].present?
 
-      layerspecs = recent
+      layerspecs = all
       layerspecs = layerspecs.filter_dataset(dataset) if dataset.present?
 
       layerspecs = case status

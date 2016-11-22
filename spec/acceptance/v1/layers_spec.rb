@@ -128,139 +128,6 @@ module V1
           expect(status).to eq(200)
           expect(json.size).to eq(6)
         end
-
-        it 'Show list of layers with pending status' do
-          get '/layer?status=pending'
-
-          expect(status).to eq(200)
-          expect(json.size).to eq(0)
-        end
-
-        it 'Show list of layers with active status' do
-          get '/layer?status=active'
-
-          expect(status).to eq(200)
-          expect(json.size).to eq(4)
-        end
-
-        it 'Show list of layers with disabled status' do
-          get '/layer?status=disabled'
-
-          expect(status).to eq(200)
-          expect(json.size).to eq(1)
-        end
-
-        it 'Show list of layers with published status true' do
-          get '/layer?published=true'
-
-          expect(status).to eq(200)
-          expect(json.size).to eq(4)
-        end
-
-        it 'Show list of layers with published status false' do
-          get '/layer?published=false'
-
-          expect(status).to eq(200)
-          expect(json.size).to eq(2)
-        end
-
-        it 'Show list of layers for app GFW' do
-          get '/layer?app=GF'
-
-          expect(status).to eq(200)
-          expect(json.size).to eq(1)
-        end
-
-        it 'Show list of layers for app WRW' do
-          get '/layer?app=wrw'
-
-          expect(status).to eq(200)
-          expect(json.size).to eq(3)
-        end
-
-        it 'Show blank list of layers for not existing app' do
-          get '/layer?app=notexisting'
-
-          expect(status).to eq(200)
-          expect(json.size).to eq(0)
-        end
-
-        it 'Show list of layers' do
-          get '/layer'
-
-          expect(status).to eq(200)
-          expect(json.size).to eq(4)
-        end
-
-        it 'Filter by existing dataset' do
-          get '/layer?dataset=c867138c-eccf-4e57-8aa2-b62b87800ddg'
-
-          expect(status).to eq(200)
-          expect(json.size).to eq(2)
-        end
-
-        it 'Filter by not existing dataset' do
-          get '/layer?dataset=c867138c-eccf-4e57-8aa2-b62b87800ddf'
-
-          expect(status).to eq(200)
-          expect(json.size).to eq(0)
-        end
-
-        it 'Filter by existing dataset by url' do
-          get '/dataset/c867138c-eccf-4e57-8aa2-b62b87800ddg/layer'
-
-          expect(status).to eq(200)
-          expect(json.size).to eq(2)
-        end
-
-        it 'Filter by existing dataset by url and app' do
-          get '/dataset/c867138c-eccf-4e57-8aa2-b62b87800ddg/layer?app=gfw'
-
-          expect(status).to eq(200)
-          expect(json.size).to eq(1)
-        end
-
-        it 'Filter by not existing dataset by url' do
-          get '/dataset/c867138c-eccf-4e57-8aa2-b62b87800ddf/layer'
-
-          expect(status).to eq(200)
-          expect(json.size).to eq(0)
-        end
-
-        it 'Filter by dataset ids' do
-          post '/layer/find-by-ids', params: { "layer": { "ids": ["c867138c-eccf-4e57-8aa2-b62b87800ddg", "c867138c-eccf-4e57-8aa2-b62b87800ddh"] } }
-
-          expect(status).to eq(200)
-          expect(json.size).to eq(3)
-        end
-
-        it 'Filter by dataset ids and apps' do
-          post '/layer/find-by-ids', params: { "layer": { "ids": ["c867138c-eccf-4e57-8aa2-b62b87800ddg", "c867138c-eccf-4e57-8aa2-b62b87800ddh"], "app": ["wrw"] } }
-
-          expect(status).to eq(200)
-          expect(json.size).to eq(2)
-        end
-
-        it 'Filter by dataset ids and apps' do
-          post '/layer/find-by-ids', params: { "layer": { "ids": ["c867138c-eccf-4e57-8aa2-b62b87800ddg", "c867138c-eccf-4e57-8aa2-b62b87800ddh"], "app": ["prep", "test", "gfw"] } }
-
-          expect(status).to eq(200)
-          expect(json.size).to eq(1)
-        end
-
-        it 'Filter by dataset ids and apps' do
-          post '/layer/find-by-ids', params: { "layer": { "ids": ["c867138c-eccf-4e57-8aa2-b62b87800ddg", "c867138c-eccf-4e57-8aa2-b62b87800ddh"], "app": ["prep", "test"] } }
-
-          expect(status).to eq(200)
-          expect(json.size).to eq(0)
-        end
-
-        it 'Filter by non existing dataset ids' do
-          post '/layer/find-by-ids', params: { "layer": { "ids": ["c867138c-eccf-4e57-8aa2-b62b87800ddx"] } }
-
-          expect(status).to eq(200)
-          expect(json.size).to eq(0)
-        end
       end
 
       it 'Show layer by slug' do
@@ -327,16 +194,14 @@ module V1
         post '/layer', params: params_provider
 
         expect(status).to eq(422)
-        expect(json_main['success']).to eq(false)
-        expect(json_main['message']).to eq(['Provider not valid'])
+        expect(json_main['errors'][0]['title']).to eq(['Provider not valid'])
       end
 
       it 'Name and slug validation' do
         post '/layer', params: params_faild
 
         expect(status).to eq(422)
-        expect(json_main['success']).to eq(false)
-        expect(json_main['message']).to eq(['Name is already taken', 'Slug is already taken'])
+        expect(json_main['errors'][0]['title']).to eq(['Name is already taken', 'Slug is already taken'])
       end
 
       it 'Allows to update layer via put' do
