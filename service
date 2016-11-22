@@ -14,6 +14,7 @@ case "$1" in
         cp -n env.docker_sample test.env
         cp -n config/mongoid.yml.sample config/mongoid.yml
         cp ./Dockerfile.dev_test ./Dockerfile
+        docker-compose -f docker-compose-test.yml build &&
         docker-compose -f docker-compose-test.yml run test
         ;;
     *)

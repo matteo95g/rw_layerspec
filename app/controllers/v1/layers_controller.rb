@@ -8,8 +8,8 @@ module V1
     before_action :set_caller, only: :update
 
     def index
-      @layers = Layer.fetch_all(layer_type_filter)
-      render json: @layers, each_serializer: LayerSerializer, meta: { layersCount: @layers.size }
+      @layers = LayersIndex.new(self)
+      render json: @layers.layers, each_serializer: LayerSerializer
     end
 
     def by_datasets
@@ -32,7 +32,7 @@ module V1
                                                                                  updatedAt: @layer.try(:updated_at),
                                                                                  createdAt: @layer.try(:created_at) }
         else
-          render json: { success: false, message: @layer.errors.full_messages }, status: 422
+          render json: { errors: [{ status: 422, title: @layer.errors.full_messages }] }, status: 422
         end
       else
         render json: { errors: [{ status: 401, title: 'Not authorized!' }] }, status: 401
@@ -49,7 +49,7 @@ module V1
                                                                                  updatedAt: @layer.try(:updated_at),
                                                                                  createdAt: @layer.try(:created_at) }
         else
-          render json: { success: false, message: @layer.errors.full_messages }, status: 422
+          render json: { errors: [{ status: 422, title: @layer.errors.full_messages }] }, status: 422
         end
       else
         render json: { errors: [{ status: 401, title: 'Not authorized!' }] }, status: 401
@@ -121,10 +121,6 @@ module V1
           @layer_params = layer_params.except(:logged_user)
           @authorized = User.authorize_user!(@user, intersect_apps(@layer.application.split(','), @apps, @layer_apps), @layer.try(:user_id), match_apps: true)
         end
-      end
-
-      def layer_type_filter
-        params.permit(:status, :published, :app, :dataset)
       end
 
       def layer_datasets_filter
