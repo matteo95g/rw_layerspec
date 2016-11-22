@@ -392,7 +392,7 @@ module V1
       end
 
       it 'Allows to delete layer by dataset and id' do
-        delete "/dataset/c867138c-eccf-4e57-8aa2-b62b87800ddg/layer/#{layer_id}", params: { "loggedUser": {"role": "manager", "extraUserData": { "apps": ["gfw","prep","wrw"] }, "id": "3242-32442-432"} }
+        delete "/dataset/c867138c-eccf-4e57-8aa2-b62b87800ddg/layer/#{layer_id}", params: { "loggedUser": "{\"role\": \"manager\", \"extraUserData\": { \"apps\": [\"gfw\",\"prep\",\"wrw\"] }, \"id\": \"3242-32442-432\"}" }
 
         expect(status).to eq(200)
         expect(json_main['message']).to      eq('Layer deleted')
@@ -400,7 +400,7 @@ module V1
       end
 
       it 'Allows to delete layer by dataset and slug' do
-        delete "/dataset/c867138c-eccf-4e57-8aa2-b62b87800ddg/layer/#{layer_slug}", params: { "loggedUser": {"role": "manager", "extraUserData": { "apps": ["gfw","prep","wrw"] }, "id": "3242-32442-432"} }
+        delete "/dataset/c867138c-eccf-4e57-8aa2-b62b87800ddg/layer/#{layer_slug}", params: { "loggedUser": "{\"role\": \"manager\", \"extraUserData\": { \"apps\": [\"gfw\",\"prep\",\"wrw\"] }, \"id\": \"3242-32442-432\"}"}
 
         expect(status).to eq(200)
         expect(json_main['message']).to          eq('Layer deleted')
