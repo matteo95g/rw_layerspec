@@ -94,6 +94,15 @@
       },
       {
         "url": "/dataset/:dataset_id/layer/:id",
+        "method": "POST",
+        "endpoints": [{
+            "method": "POST",
+            "baseUrl": "http://192.168.1.81:3030",
+            "path": "/dataset/:dataset_id/layer/:id"
+        }]
+      },
+      {
+        "url": "/dataset/:dataset_id/layer/:id",
         "method": "DELETE",
         "endpoints": [{
             "method": "DELETE",
