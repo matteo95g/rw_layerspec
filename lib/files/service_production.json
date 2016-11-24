@@ -40,16 +40,6 @@
         }]
       },
       {
-        "url": "/layer",
-        "method": "POST",
-        "authenticated": true,
-        "endpoints": [{
-            "method": "POST",
-            "baseUrl": "http://localhost:3030",
-            "path": "/layer"
-        }]
-      },
-      {
         "url": "/layer/find-by-ids",
         "method": "POST",
         "endpoints": [{
@@ -59,36 +49,6 @@
         }]
       },
       {
-        "url": "/layer/:id",
-        "method": "PUT",
-        "authenticated": true,
-        "endpoints": [{
-            "method": "PUT",
-            "baseUrl": "http://localhost:3030",
-            "path": "/layer/:id"
-        }]
-      },
-      {
-        "url": "/layer/:id",
-        "method": "PATCH",
-        "authenticated": true,
-        "endpoints": [{
-            "method": "PATCH",
-            "baseUrl": "http://localhost:3030",
-            "path": "/layer/:id"
-        }]
-      },
-      {
-        "url": "/layer/:id",
-        "method": "DELETE",
-        "authenticated": true,
-        "endpoints": [{
-            "method": "DELETE",
-            "baseUrl": "http://localhost:3030",
-            "path": "/layer/:id"
-        }]
-      },
-      {
         "url": "/dataset/:dataset_id/layer/:id",
         "method": "PUT",
         "authenticated": true,
@@ -109,13 +69,13 @@
         }]
       },
       {
-        "url": "/dataset/:dataset_id/layer/:id",
+        "url": "/dataset/:dataset_id/layer",
         "method": "POST",
         "authenticated": true,
         "endpoints": [{
             "method": "POST",
             "baseUrl": "http://localhost:3030",
-            "path": "/dataset/:dataset_id/layer/:id"
+            "path": "/dataset/:dataset_id/layer"
         }]
       },
       {
