@@ -99,13 +99,13 @@
         }]
       },
       {
-        "url": "/dataset/:dataset_id/layer/:id",
+        "url": "/dataset/:dataset_id/layer",
         "method": "POST",
         "authenticated": true,
         "endpoints": [{
             "method": "POST",
             "baseUrl": "http://localhost:3030",
-            "path": "/dataset/:dataset_id/layer/:id"
+            "path": "/dataset/:dataset_id/layer"
         }]
       },
       {
