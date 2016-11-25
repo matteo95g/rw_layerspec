@@ -6,6 +6,7 @@ class Layer
   include LayerData
 
   before_update :assign_slug
+  before_save   :merge_apps, if: 'application_changed?'
 
   before_validation(on: :create) do
     set_uuid
@@ -14,7 +15,6 @@ class Layer
   before_validation(on: [:create, :update]) do
     check_slug
     downcase_provider
-    downcase_app
   end
 
   validates :name, presence: true
@@ -41,7 +41,7 @@ class Layer
   scope :filter_datasets, ->(dataset_ids) { where({ dataset_id:  { "$in" => dataset_ids } }) }
 
   def app_txt
-    application
+    application.is_a?(String) ? application.split(',') : application
   end
 
   def status_txt
@@ -123,8 +123,8 @@ class Layer
       self.slug = self.slug.downcase.parameterize
     end
 
-    def downcase_app
-      self.application = self.application.downcase.parameterize if self.application.present?
+    def merge_apps
+      self.application = self.application.each { |a| a.downcase! }.uniq
     end
 
     def downcase_provider

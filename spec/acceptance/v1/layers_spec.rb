@@ -10,7 +10,7 @@ module V1
                   }}}}
 
       let!(:params) {{ "loggedUser": {"role": "manager", "extraUserData": { "apps": ["gfw","prep","wrw"] }, "id": "3242-32442-432"},
-                       "layer": { "application": "GFW",
+                       "layer": { "application": ["GFW"],
                                   "name": "second-test-layer",
                                   "provider": "Cartodb",
                                   "datasetId": "c867138c-eccf-4e57-8aa2-b62b87800ddf",
@@ -48,7 +48,7 @@ module V1
                                 }}}
 
       let!(:new_params) {{ "loggedUser": {"role": "manager", "extraUserData": { "apps": ["gfw","prep","wrw"] }, "id": "3242-32442-432"},
-                           "layer": { "application": "GFW",
+                           "layer": { "application": ["GFW"],
                                       "name": "second-test-layer",
                                       "provider": "Cartodb",
                                       "datasetId": "c867138c-eccf-4e57-8aa2-b62b87800ddf",
@@ -86,24 +86,24 @@ module V1
                                     }}}
 
       let!(:params_provider) {{ "loggedUser": {"role": "manager", "extraUserData": { "apps": ["gfw","prep","wrw"] }, "id": "3242-32442-432"},
-                                "layer": { "application": "gfw",
+                                "layer": { "application": ["gfw"],
                                            "name": "third-test-layer",
                                            "provider": "Test"
                                           }}}
 
-      let!(:params_faild)  {{"loggedUser": {"role": "manager", "extraUserData": { "apps": ["gfw","prep","wrw"] }, "id": "3242-32442-432"}, "layer": { "name": "Layer second one", "application_config": data, "application": "gfw" }}}
-      let!(:update_params) {{"loggedUser": {"role": "manager", "extraUserData": { "apps": ["gfw","prep","wrw"] }, "id": "3242-32442-432"}, "layer": { "name": "First test layer update", "slug": "test-layer-slug", "application_config": data, "application": "gfw" }}}
+      let!(:params_faild)  {{"loggedUser": {"role": "manager", "extraUserData": { "apps": ["gfw","prep","wrw"] }, "id": "3242-32442-432"}, "layer": { "name": "Layer second one", "application_config": data, "application": ["gfw"] }}}
+      let!(:update_params) {{"loggedUser": {"role": "manager", "extraUserData": { "apps": ["gfw","prep","wrw"] }, "id": "3242-32442-432"}, "layer": { "name": "First test layer update", "slug": "test-layer-slug", "application_config": data, "application": ["gfw"] }}}
 
       let!(:layer) {
-        Layer.create!(name: 'Layer second one', published: true, status: 1, application: 'gfw', dataset_id: 'c867138c-eccf-4e57-8aa2-b62b87800ddg', user_id: '3242-32442-432')
+        Layer.create!(name: 'Layer second one', published: true, status: 1, application: ['gfw'], dataset_id: 'c867138c-eccf-4e57-8aa2-b62b87800ddg', user_id: '3242-32442-432')
       }
 
       let!(:default_layer) {
-        Layer.create!(name: 'Layer first one', published: true, dataset_id: 'c867138c-eccf-4e57-8aa2-b62b87800ddg', application: 'WRW', user_id: '3242-32442-432')
+        Layer.create!(name: 'Layer first one', published: true, dataset_id: 'c867138c-eccf-4e57-8aa2-b62b87800ddg', application: ['WRW'], user_id: '3242-32442-432')
       }
 
       let!(:next_layer) {
-        Layer.create!(name: 'Next first one', published: true, application: 'WRW', dataset_id: 'c867138c-eccf-4e57-8aa2-b62b87800ddh', user_id: '3242-32442-432')
+        Layer.create!(name: 'Next first one', published: true, application: ['WRW'], dataset_id: 'c867138c-eccf-4e57-8aa2-b62b87800ddh', user_id: '3242-32442-432')
       }
 
       let!(:layer_id)   { layer.id   }
@@ -111,15 +111,15 @@ module V1
 
       context 'List filters' do
         let!(:disabled_layer) {
-          Layer.create!(name: 'Layer second second', slug: 'layer-second-second', status: 3, published: false, user_id: '3242-32442-432')
+          Layer.create!(name: 'Layer second second', slug: 'layer-second-second', application: ['prep'], status: 3, published: false, user_id: '3242-32442-432')
         }
 
         let!(:enabled_layer) {
-          Layer.create!(name: 'Layer one', status: 1, published: true, application: 'Wrw', user_id: '3242-32442-432')
+          Layer.create!(name: 'Layer one', status: 1, published: true, application: ['Wrw'], user_id: '3242-32442-432')
         }
 
         let!(:unpublished_layer) {
-          Layer.create!(name: 'Layer one unpublished', status: 1, published: false, user_id: '3242-32442-432')
+          Layer.create!(name: 'Layer one unpublished', status: 1, application: ['gfw'], published: false, user_id: '3242-32442-432')
         }
 
         it 'Show list of all layers' do
@@ -174,7 +174,7 @@ module V1
         expect(json['attributes']['slug']).to          eq('second-test-layer')
         expect(json['attributes']['provider']).to      eq('cartodb')
         expect(json['attributes']['dataset']).to       eq('c867138c-eccf-4e57-8aa2-b62b87800ddf')
-        expect(json['attributes']['application']).to   eq('gfw')
+        expect(json['attributes']['application']).to   eq(['gfw'])
         expect(json['attributes']['legendConfig']).to eq({"marks"=>{"type"=>"rect", "from"=>{"data"=>"table"}}})
       end
 
@@ -186,7 +186,7 @@ module V1
         expect(json['attributes']['slug']).to         eq('second-test-layer')
         expect(json['attributes']['provider']).to     eq('cartodb')
         expect(json['attributes']['dataset']).to      eq('c867138c-eccf-4e57-8aa2-b62b87800ddf')
-        expect(json['attributes']['application']).to  eq('gfw')
+        expect(json['attributes']['application']).to  eq(['gfw'])
         expect(json['attributes']['userId']).to       eq('3242-32442-432')
         expect(json['attributes']['legendConfig']).to eq({"marks"=>{"type"=>"rect", "from"=>{"data"=>"table"}}})
       end
@@ -276,7 +276,7 @@ module V1
       context 'Check roles' do
         it 'Do not allows to create layer by an user' do
           post '/layer', params: {"loggedUser": {"role": "user", "extraUserData": { "apps": ["gfw","prep"] }, "id": "3242-32442-432"},
-                                    "layer": {"name": "Widget", "application": "gfw" }}
+                                    "layer": {"name": "Widget", "application": ["gfw"] }}
 
           expect(status).to eq(401)
           expect(json_main['errors'][0]['title']).to eq('Not authorized!')
@@ -284,7 +284,7 @@ module V1
 
         it 'Do not allows to create layer by manager user if not in apps' do
           post '/layer', params: {"loggedUser": {"role": "manager", "extraUserData": { "apps": ["gfw","prep"] }, "id": "3242-32442-432"},
-                                    "layer": {"name": "Widget", "application": "wri" }}
+                                    "layer": {"name": "Widget", "application": ["wri"] }}
 
           expect(status).to eq(401)
           expect(json_main['errors'][0]['title']).to eq('Not authorized!')
@@ -296,12 +296,12 @@ module V1
 
           expect(status).to eq(200)
           expect(json_attr['name']).to        eq('Carto test api Widget')
-          expect(json_attr['application']).to eq("gfw")
+          expect(json_attr['application']).to eq(["gfw"])
         end
 
         it 'Do not allow to update layer by admin user if not in apps' do
           patch "/layer/#{layer_id}", params: {"loggedUser": {"role": "Admin", "extraUserData": { "apps": ["prep"] }, "id": "3242-32442-436"},
-                                                 "layer": {"application": "gfw",
+                                                 "layer": {"application": ["gfw"],
                                                             "name": "Carto test api"}}
 
           expect(status).to eq(401)
@@ -310,22 +310,22 @@ module V1
 
         it 'Allows to update layer by superadmin user' do
           patch "/layer/#{layer_id}", params: {"loggedUser": {"role": "Superadmin", "extraUserData": { }, "id": "3242-32442-436"},
-                                                 "layer": {"application": "testapp",
+                                                 "layer": {"application": ["testapp"],
                                                             "name": "Widget"}}
 
           expect(status).to eq(200)
           expect(json_attr['name']).to        eq('Widget')
-          expect(json_attr['application']).to eq("testapp")
+          expect(json_attr['application']).to eq(["testapp"])
         end
 
         it 'Allows to update layer by admin user if in apps changing apps' do
           patch "/layer/#{layer_id}", params: {"loggedUser": {"role": "Admin", "extraUserData": { "apps": ["gfw", "wrw", "prep","testapp"] }, "id": "3242-32442-436"},
-                                                 "layer": {"application": "testapp",
+                                                 "layer": {"application": ["testapp"],
                                                             "name": "Widget additional apps"}}
 
           expect(status).to eq(200)
           expect(json_attr['name']).to        eq('Widget additional apps')
-          expect(json_attr['application']).to eq("testapp")
+          expect(json_attr['application']).to eq(["testapp"])
         end
       end
     end
