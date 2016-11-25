@@ -3,28 +3,28 @@ require 'acceptance_helper'
 module V1
   describe 'Layers', type: :request do
     let!(:layer) {
-      Layer.create!(name: 'Layer second one', published: true, status: 1, application: 'gfw', dataset_id: 'c867138c-eccf-4e57-8aa2-b62b87800ddg', user_id: '3242-32442-432')
+      Layer.create!(name: 'Layer second one', published: true, status: 1, application: ['gfw'], dataset_id: 'c867138c-eccf-4e57-8aa2-b62b87800ddg', user_id: '3242-32442-432')
     }
 
     let!(:default_layer) {
-      Layer.create!(name: 'AAA Layer first one', published: true, dataset_id: 'c867138c-eccf-4e57-8aa2-b62b87800ddg', application: 'WRW', user_id: '3242-32442-432')
+      Layer.create!(name: 'AAA Layer first one', published: true, dataset_id: 'c867138c-eccf-4e57-8aa2-b62b87800ddg', application: ['WRW'], user_id: '3242-32442-432')
     }
 
     let!(:next_layer) {
-      Layer.create!(name: 'Next first one', published: true, application: 'WRW', dataset_id: 'c867138c-eccf-4e57-8aa2-b62b87800ddh', user_id: '3242-32442-432')
+      Layer.create!(name: 'Next first one', published: true, application: ['WRW'], dataset_id: 'c867138c-eccf-4e57-8aa2-b62b87800ddh', user_id: '3242-32442-432')
     }
 
     context 'List filters' do
       let!(:disabled_layer) {
-        Layer.create!(name: 'Layer second second', slug: 'layer-second-second', status: 3, published: false, user_id: '3242-32442-432')
+        Layer.create!(name: 'Layer second second', application: ['WRW'], slug: 'layer-second-second', status: 3, published: false, user_id: '3242-32442-432')
       }
 
       let!(:enabled_layer) {
-        Layer.create!(name: 'Layer one', status: 1, published: true, application: 'Wrw', user_id: '3242-32442-432')
+        Layer.create!(name: 'Layer one', status: 1, published: true, application: ['Wrw'], user_id: '3242-32442-432')
       }
 
       let!(:unpublished_layer) {
-        Layer.create!(name: 'ZZZ Layer last unpublished', status: 1, published: false, user_id: '3242-32442-432')
+        Layer.create!(name: 'ZZZ Layer last unpublished', application: ['WRW'], status: 1, published: false, user_id: '3242-32442-432')
       }
 
       it 'Show list of layers with pending status' do

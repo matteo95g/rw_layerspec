@@ -57,7 +57,7 @@ module V1
     end
 
     def destroy
-      authorized = User.authorize_user!(@user, intersect_apps(@layer.application.split(','), @apps), @layer.try(:user_id), match_apps: true)
+      authorized = User.authorize_user!(@user, intersect_apps(@layer.application, @apps), @layer.try(:user_id), match_apps: true)
       if authorized.present?
         if @layer.destroy
           render json: { success: true, message: 'Layer deleted' }, status: 200
@@ -103,7 +103,7 @@ module V1
                            params[:logged_user][:extra_user_data][:apps].map { |v| v.downcase }.uniq
                          end
           @layer_apps  = if action_name != 'destroy' && layer_params[:application].present?
-                           layer_params[:application].downcase.split(',')
+                           layer_params[:application].map(&:downcase)
                           end
 
           User.data = [{ user_id: user_id, role: @role, apps: @apps }]
@@ -119,7 +119,7 @@ module V1
           @authorized = true
         else
           @layer_params = layer_params.except(:logged_user)
-          @authorized = User.authorize_user!(@user, intersect_apps(@layer.application.split(','), @apps, @layer_apps), @layer.try(:user_id), match_apps: true)
+          @authorized = User.authorize_user!(@user, intersect_apps(@layer.application, @apps, @layer_apps), @layer.try(:user_id), match_apps: true)
         end
       end
 
