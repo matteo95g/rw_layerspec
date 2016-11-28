@@ -51,7 +51,6 @@ module V1
                            "layer": { "application": ["GFW"],
                                       "name": "second-test-layer",
                                       "provider": "Cartodb",
-                                      "datasetId": "c867138c-eccf-4e57-8aa2-b62b87800ddf",
                                       "description": "Lorem ipsum dolor...",
                                       "iso": [
                                         "BRA",
