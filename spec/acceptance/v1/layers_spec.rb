@@ -91,7 +91,7 @@ module V1
                                           }}}
 
       let!(:params_faild)  {{"loggedUser": {"role": "manager", "extraUserData": { "apps": ["gfw","prep","wrw"] }, "id": "3242-32442-432"}, "layer": { "name": "Layer second one", "application_config": data, "application": ["gfw"] }}}
-      let!(:update_params) {{"loggedUser": {"role": "manager", "extraUserData": { "apps": ["gfw","prep","wrw"] }, "id": "3242-32442-432"}, "layer": { "name": "First test layer update", "slug": "test-layer-slug", "application_config": data, "application": ["gfw"] }}}
+      let!(:update_params) {{"loggedUser": {"role": "manager", "extraUserData": { "apps": ["gfw","prep","wrw"] }, "id": "3242-32442-432"}, "layer": { "name": "First test layer update", "id": "c867138c-eccf-4e57-8aa2-b62b87800aaa", "slug": "test-layer-slug", "application_config": data, "application": ["gfw"] }}}
 
       let!(:layer) {
         Layer.create!(name: 'Layer second one', published: true, status: 1, application: ['gfw'], dataset_id: 'c867138c-eccf-4e57-8aa2-b62b87800ddg', user_id: '3242-32442-432')
@@ -210,7 +210,7 @@ module V1
         expect(status).to eq(200)
         expect(json['id']).to                 eq(layer_id)
         expect(json['attributes']['name']).to eq('First test layer update')
-        expect(json['attributes']['slug']).to eq('test-layer-slug')
+        expect(json['attributes']['slug']).to eq('layer-second-one')
       end
 
       it 'Allows to update layer via patch' do
@@ -219,7 +219,7 @@ module V1
         expect(status).to eq(200)
         expect(json['id']).to                 eq(layer_id)
         expect(json['attributes']['name']).to eq('First test layer update')
-        expect(json['attributes']['slug']).to eq('test-layer-slug')
+        expect(json['attributes']['slug']).to eq('layer-second-one')
       end
 
       it 'Allows to update dataset layer via put' do
@@ -228,7 +228,7 @@ module V1
         expect(status).to eq(200)
         expect(json['id']).to                 eq(layer_id)
         expect(json['attributes']['name']).to eq('First test layer update')
-        expect(json['attributes']['slug']).to eq('test-layer-slug')
+        expect(json['attributes']['slug']).to eq('layer-second-one')
       end
 
       it 'Allows to update dataset layer via patch' do
@@ -237,7 +237,8 @@ module V1
         expect(status).to eq(200)
         expect(json['id']).to                 eq(layer_id)
         expect(json['attributes']['name']).to eq('First test layer update')
-        expect(json['attributes']['slug']).to eq('test-layer-slug')
+        expect(json['attributes']['slug']).to eq('layer-second-one')
+        expect(json['id']).to                 eq("#{layer_id}")
       end
 
       it 'Allows to delete layer by id' do

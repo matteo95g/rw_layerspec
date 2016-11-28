@@ -123,10 +123,10 @@ module V1
 
       def set_caller
         if layer_params[:logged_user].present? && layer_params[:logged_user][:id] == 'microservice'
-          @layer_params = layer_params.except(:user_id, :logged_user)
+          @layer_params = layer_params.except(:user_id, :logged_user, :slug, :id)
           @authorized = true
         else
-          @layer_params = layer_params.except(:logged_user)
+          @layer_params = layer_params.except(:logged_user, :slug, :id)
           @authorized = User.authorize_user!(@user, intersect_apps(@layer.application, @apps, @layer_apps), @layer.try(:user_id), match_apps: true)
         end
       end
