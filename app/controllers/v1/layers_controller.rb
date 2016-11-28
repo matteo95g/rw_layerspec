@@ -25,34 +25,42 @@ module V1
     end
 
     def update
-      if @authorized.present?
-        if @layer.update(@layer_params)
-          render json: @layer, status: 200, serializer: LayerSerializer, meta: { status: @layer.try(:status_txt),
-                                                                                 published: @layer.try(:published),
-                                                                                 updatedAt: @layer.try(:updated_at),
-                                                                                 createdAt: @layer.try(:created_at) }
+      begin
+        if @authorized.present?
+          if @layer.update(@layer_params)
+            render json: @layer, status: 200, serializer: LayerSerializer, meta: { status: @layer.try(:status_txt),
+                                                                                   published: @layer.try(:published),
+                                                                                   updatedAt: @layer.try(:updated_at),
+                                                                                   createdAt: @layer.try(:created_at) }
+          else
+            render json: { errors: [{ status: 422, title: @layer.errors.full_messages }] }, status: 422
+          end
         else
-          render json: { errors: [{ status: 422, title: @layer.errors.full_messages }] }, status: 422
+          render json: { errors: [{ status: 401, title: 'Not authorized!' }] }, status: 401
         end
-      else
-        render json: { errors: [{ status: 401, title: 'Not authorized!' }] }, status: 401
+      rescue StandardError => e
+        render json: { errors: [{ status: 422, title: e }] }, status: 422
       end
     end
 
     def create
-      authorized = User.authorize_user!(@user, @layer_apps)
-      if authorized.present?
-        @layer = Layer.new(layer_params.except(:logged_user))
-        if @layer.save
-          render json: @layer, status: 201, serializer: LayerSerializer, meta: { status: @layer.try(:status_txt),
-                                                                                 published: @layer.try(:published),
-                                                                                 updatedAt: @layer.try(:updated_at),
-                                                                                 createdAt: @layer.try(:created_at) }
+      begin
+        authorized = User.authorize_user!(@user, @layer_apps)
+        if authorized.present?
+          @layer = Layer.new(layer_params.except(:logged_user))
+          if @layer.save
+            render json: @layer, status: 201, serializer: LayerSerializer, meta: { status: @layer.try(:status_txt),
+                                                                                   published: @layer.try(:published),
+                                                                                   updatedAt: @layer.try(:updated_at),
+                                                                                   createdAt: @layer.try(:created_at) }
+          else
+            render json: { errors: [{ status: 422, title: @layer.errors.full_messages }] }, status: 422
+          end
         else
-          render json: { errors: [{ status: 422, title: @layer.errors.full_messages }] }, status: 422
+          render json: { errors: [{ status: 401, title: 'Not authorized!' }] }, status: 401
         end
-      else
-        render json: { errors: [{ status: 401, title: 'Not authorized!' }] }, status: 401
+      rescue StandardError => e
+        render json: { errors: [{ status: 422, title: e }] }, status: 422
       end
     end
 
