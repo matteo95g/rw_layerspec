@@ -3,23 +3,137 @@ info:
   title: RW Layerspec API
   description: Resource Watch - Layerspec API
   version: "1.0.0"
-host: ec2-52-23-163-254.compute-1.amazonaws.com
+host: staging-api.globalforestwatch.org
 
 schemes:
+  - https
   - http
 
-produces:
-  - application/json
+consumes:
+  - application/vnd.api+json
 
+produces:
+  - application/vnd.api+json
+
+###############################################################################
+#                                  Security
+###############################################################################
+#securityDefinitions:
+#  UserSecurity:
+#    type: apiKey
+#    in: header
+#    name: Authorization
+#    description: For write operations we need to provide a token like  ```Bearer {{TOKEN}}```
+#    security:
+#      - UserSecurity: []
+
+###############################################################################
+#                                  Paths
+###############################################################################
 paths:
   /layer:
     get:
       description: Returns all layers
+      consumes:
+        - application/vnd.api+json
       produces:
+        - application/vnd.api+json
         - application/json
       tags:
         - Layer
       parameters:
+        - name: status
+          in: query
+          description: Filter layers on status (pending, active, failed, disabled, all)
+          type: string
+        - name: published
+          in: query
+          description: Filter layers on published status (true, false)
+          type: string
+        - name: app
+          in: query
+          description: Filter layers on app (default, gfw, wrw)
+          type: string
+        - name: dataset
+          in: query
+          description: Filter layers on on dataset (dataset_id)
+          type: string
+      responses:
+        200:
+          description: Layers obtained
+          schema:
+            $ref: '#/definitions/Layers'
+        401:
+          description: Not authorized!
+          schema:
+            $ref: '#/definitions/Error'
+        404:
+          description: Layer not found
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /layer/{id}:
+    get:
+      description: Returns layer based on a single UUID or slug, if the layer not exist return 404
+      consumes:
+        - application/vnd.api+json
+      produces:
+        - application/vnd.api+json
+        - application/json
+      tags:
+        - Layer
+      parameters:
+        - name: id
+          in: path
+          description: UUID of layer to fetch or slug
+          required: true
+          type: string
+      responses:
+        200:
+          description: Layer obtained
+          schema:
+            $ref: '#/definitions/Layer'
+        401:
+          description: Not authorized!
+          schema:
+            $ref: '#/definitions/Error'
+        404:
+          description: Layer not found
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /dataset/{dataset_id}/layer:
+    get:
+      description: Returns all layers of specific dataset
+      consumes:
+        - application/vnd.api+json
+      produces:
+        - application/vnd.api+json
+        - application/json
+      tags:
+        - Layer
+      parameters:
+        - name: dataset_id
+          in: path
+          description: UUID of dataset to update layer
+          required: true
+          type: string
         - name: status
           in: query
           description: Filter layers on status (pending, active, failed, disabled, all)
@@ -37,6 +151,14 @@ paths:
           description: Layers obtained
           schema:
             $ref: '#/definitions/Layers'
+        401:
+          description: Not authorized!
+          schema:
+            $ref: '#/definitions/Error'
+        404:
+          description: Layer not found
+          schema:
+            $ref: '#/definitions/Error'
         500:
           description: Unexpected error
           schema:
@@ -45,27 +167,40 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/Error'
+
     post:
       summary: Create layer
       description: Create layer
+      consumes:
+        - application/vnd.api+json
       produces:
+        - application/vnd.api+json
         - application/json
       tags:
         - Layer
       parameters:
+        - name: dataset_id
+          in: path
+          description: UUID of dataset to update layer
+          required: true
+          type: string
         - name: layer
           in: body
           description: Layer to save
           required: true
           schema:
-            $ref: '#/definitions/LayerCreate'
+            $ref: '#/definitions/Layer'
       responses:
         200:
           description: The object created
           schema:
             $ref: '#/definitions/Layer'
-        400:
-          description: Validate error
+        401:
+          description: Not authorized!
+          schema:
+            $ref: '#/definitions/Error'
+        422:
+          description: Unprocessable entity
           schema:
             $ref: '#/definitions/Error'
         500:
@@ -77,43 +212,22 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /layer/{id}:
-    get:
-      description: Returns layer based on a single UUID or slug, if the geostore not exist return 404
+  /dataset/{dataset_id}/layer/{id}:
+    put:
+      description: Update layer for specific dataset based on a single UUID or slug, if the layer not exist return 404
+      consumes:
+        - application/vnd.api+json
       produces:
+        - application/vnd.api+json
         - application/json
       tags:
         - Layer
       parameters:
-        - name: id
+        - name: dataset_id
           in: path
-          description: UUID of layer to fetch or slug
+          description: UUID of dataset to update layer
           required: true
           type: string
-      responses:
-        200:
-          description: Layer obtained
-          schema:
-            $ref: '#/definitions/Layer'
-        404:
-          description: Layer not found
-          schema:
-            $ref: '#/definitions/Error'
-        500:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-    put:
-      description: Update layer based on a single UUID or slug, if the geostore not exist return 404
-      produces:
-        - application/json
-      tags:
-        - Layer
-      parameters:
         - name: id
           in: path
           description: UUID of layer to update or slug
@@ -124,12 +238,16 @@ paths:
           description: New data of the layer
           required: true
           schema:
-            $ref: '#/definitions/LayerCreate'
+            $ref: '#/definitions/Layer'
       responses:
         200:
           description: Layer updated
           schema:
             $ref: '#/definitions/Layer'
+        401:
+          description: Not authorized!
+          schema:
+            $ref: '#/definitions/Error'
         404:
           description: Layer not found
           schema:
@@ -142,13 +260,70 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/Error'
-    delete:
-      description: Delete layer based on a single UUID or slug, if the geostore not exist return 404
+
+    patch:
+      description: Update layer for specific dataset based on a single UUID or slug, if the layer not exist return 404
+      consumes:
+        - application/vnd.api+json
       produces:
+        - application/vnd.api+json
         - application/json
       tags:
         - Layer
       parameters:
+        - name: dataset_id
+          in: path
+          description: UUID of dataset to update layer
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: UUID of layer to update or slug
+          required: true
+          type: string
+        - name: layer
+          in: body
+          description: New data of the layer
+          required: true
+          schema:
+            $ref: '#/definitions/Layer'
+      responses:
+        200:
+          description: Layer updated
+          schema:
+            $ref: '#/definitions/Layer'
+        401:
+          description: Not authorized!
+          schema:
+            $ref: '#/definitions/Error'
+        404:
+          description: Layer not found
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+    delete:
+      description: Delete layer for specific dataset based on a single UUID or slug, if the layer not exist return 404
+      consumes:
+        - application/vnd.api+json
+      produces:
+        - application/vnd.api+json
+        - application/json
+      tags:
+        - Layer
+      parameters:
+        - name: dataset_id
+          in: path
+          description: UUID of dataset to update layer
+          required: true
+          type: string
         - name: id
           in: path
           description: UUID of layer to delete or slug
@@ -159,8 +334,50 @@ paths:
           description: Layer updated
           schema:
             $ref: '#/definitions/Message'
+        401:
+          description: Not authorized!
+          schema:
+            $ref: '#/definitions/Error'
         404:
           description: Layer not found
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /layer/find-by-ids:
+    post:
+      description: Returns all layers for specific datasets
+      consumes:
+        - application/vnd.api+json
+      produces:
+        - application/vnd.api+json
+        - application/json
+      tags:
+        - Layer
+      parameters:
+        - name: ids
+          in: body
+          description: Dataset ids
+          required: true
+          schema:
+            type: array
+            description: array of dataset ids
+            items:
+              type: string
+      responses:
+        200:
+          description: Layers obtained
+          schema:
+            $ref: '#/definitions/Layers'
+        401:
+          description: Not authorized!
           schema:
             $ref: '#/definitions/Error'
         500:
@@ -173,58 +390,10 @@ paths:
             $ref: '#/definitions/Error'
 
 definitions:
-  LayerCreate:
-    type: object
-    properties:
-      layer:
-        type: object
-        properties:
-          name:
-            type: string
-            description: Name of the layer
-          title:
-            type: string
-            description: Title of the layer
-          status:
-            type: integer
-            format: int32
-            description: Id of the status (0 - panding, 1 - saved, 2 - failed, 3 - disabled)
-          published:
-            type: boolean
-            description: Published status (true - false)
-          slug:
-            type: string
-            description: Slug (would be generated from title if empty)
-          dataset_id:
-            type: string
-            description: Id of dataset
-          default:
-            type: boolean
-            description: Default layer for configurated dataset
-
   Layers:
     type: array
     items:
       $ref: '#/definitions/Layer'
-
-  LayerArray:
-    type: object
-    properties:
-      id:
-        type: string
-        description: Layer uuid
-      slug:
-        type: string
-        description: Slug of the layer
-      name:
-        type: string
-        description: Name of the layer
-      status:
-        type: string
-        description: status
-      published:
-        type: boolean
-        description: Published status
 
   Layer:
     type: object
@@ -232,52 +401,68 @@ definitions:
       id:
         type: string
         description: Layer uuid
-      meta:
+      type:
+        type: string
+        description: layer
+      links:
         type: object
         properties:
-          status:
+          self:
             type: string
-            description: Status
-          published:
-            type: boolean
-            description: Published status
-          updated_at:
+            description: Pagination links
+          first:
             type: string
-            description: Date
-          created_at:
+            description: Pagination links
+          prev:
             type: string
-            description: Date
+            description: Pagination links
+          next:
+            type: string
+            description: Pagination links
+          last:
+            type: string
+            description: Pagination links
       attributes:
         type: object
         properties:
           slug:
             type: string
             description: Slug of the layer
-          title:
+          userId:
             type: string
-            description: Title of the layer
-          dataset-id:
+            description: Id of user
+          application:
+            type: array
+            description: Available for defined applications
+            items:
+              type: string
+          name:
             type: string
-            description: Id of dataset
+            description: Name of the layer
           default:
             type: boolean
             description: Default layer for configurated dataset
+          dataset:
+            type: string
+            description: Id of dataset
           provider:
             type: string
             description: Provider
           iso:
             type: array
             description: Country iso
+            items:
+              type: string
           description:
             type: string
             description: Description
-          layer-config:
+          layerConfig:
             type: object
             description: Json field for layer config
-          legend-config:
+          legendConfig:
             type: object
             description: Json field for legend config
-          application-config:
+          applicationConfig:
             type: object
             description: Json field for application config
 
@@ -290,17 +475,20 @@ definitions:
         type: string
 
   Error:
-    type: object
-    properties:
-      status:
-        type: string
-        description: The HTTP status code applicable to this problem, expressed as a string value
-      error:
-        type: string
-        description: An application-specific error code, expressed as a string value
-      exception:
-        type: string
-        description: A short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization.
-      traces:
-        type: string
-        description: A human-readable explanation specific to this occurrence of the problem. Like title, this field's value can be localized
+   type: object
+   description: Errors
+   properties:
+     errors:
+       type: array
+       items:
+         type: object
+         properties:
+           status:
+             type: string
+             description: The HTTP status code applicable to this problem, expressed as a string value
+           code:
+             type: string
+             description: An application-specific error code, expressed as a string value
+           title:
+             type: string
+             description: A short summary of the problem
