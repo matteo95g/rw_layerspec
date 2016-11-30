@@ -17,7 +17,7 @@ class Layer
     downcase_provider
   end
 
-  validates :name, presence: true
+  validates :name, presence: true, on: :create
   validates :slug, presence: true, format: { with: /\A[^\s!#$%^&*()（）=+;:'"\[\]\{\}|\\\/<>?,]+\z/,
                                              allow_blank: true,
                                              message: 'invalid. Slug must contain at least one letter and no special character' }
