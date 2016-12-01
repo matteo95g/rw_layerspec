@@ -9,7 +9,7 @@ module V1
 
     def index
       @layers = LayersIndex.new(self)
-      render json: @layers.layers, each_serializer: LayerSerializer
+      render json: @layers.layers, each_serializer: LayerSerializer, links: @layers.links
     end
 
     def by_datasets
@@ -112,9 +112,9 @@ module V1
                          end
           @layer_apps  = if action_name != 'destroy' && layer_params[:application].present?
                            if layer_params[:application].is_a?(String)
-                              layer_params[:application].split(',').map(&:downcase)
-                            else
-                              layer_params[:application].map(&:downcase)
+                             layer_params[:application].split(',').map(&:downcase)
+                           else
+                             layer_params[:application].map(&:downcase)
                             end
                           end
 
