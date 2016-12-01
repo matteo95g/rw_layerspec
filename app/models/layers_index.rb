@@ -19,6 +19,15 @@ class LayersIndex
                      .paginate(page: current_page, per_page: per_page)
   end
 
+  def links
+    {
+      first: layers_url(rebuild_params.merge(first_page)),
+      prev:  layers_url(rebuild_params.merge(prev_page)),
+      next:  layers_url(rebuild_params.merge(next_page)),
+      last:  layers_url(rebuild_params.merge(last_page))
+    }
+  end
+
   private
 
     def options_filter
@@ -63,7 +72,7 @@ class LayersIndex
     end
 
     def rebuild_params
-      @rebuild_params ||= begin
+      @rebuild_params = begin
         rejected = ['action', 'controller']
         params.to_unsafe_h.reject { |key, value| rejected.include?(key.to_s) }
       end
