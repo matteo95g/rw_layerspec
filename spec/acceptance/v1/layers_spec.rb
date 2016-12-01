@@ -114,7 +114,7 @@ module V1
         }
 
         let!(:enabled_layer) {
-          Layer.create!(name: 'Layer one', status: 1, published: true, application: ['Wrw'], user_id: '3242-32442-432')
+          Layer.create!(name: 'Test Layer one', status: 1, published: true, application: ['Wrw'], user_id: '3242-32442-432')
         }
 
         let!(:unpublished_layer) {
@@ -126,6 +126,22 @@ module V1
 
           expect(status).to eq(200)
           expect(json.size).to eq(6)
+        end
+
+        context 'Find layers by name' do
+          it 'Allows to find layers by name' do
+            get '/layer?name=second'
+
+            expect(status).to eq(200)
+            expect(json.length).to eq(2)
+          end
+
+          it 'Allows to find layers by name' do
+            get '/layer?name=TesT'
+
+            expect(status).to eq(200)
+            expect(json.length).to eq(1)
+          end
         end
       end
 

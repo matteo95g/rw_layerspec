@@ -39,6 +39,7 @@ class Layer
 
   scope :filter_apps,     ->(apps)        { where({ application: { "$in" => apps        } }) }
   scope :filter_datasets, ->(dataset_ids) { where({ dataset_id:  { "$in" => dataset_ids } }) }
+  scope :filter_name,     ->(name)        { where(name: /\d*#{name}\d*/i)                     }
 
   def app_txt
     application.is_a?(String) ? application.split(',') : application
@@ -67,6 +68,7 @@ class Layer
       published     = options['published']       if options['published'].present?
       layerspec_app = options['app'].downcase    if options['app'].present?
       dataset       = options['dataset']         if options['dataset'].present?
+      find_by_name  = options['name']            if options['name'].present?
 
       layerspecs = all
       layerspecs = layerspecs.filter_dataset(dataset) if dataset.present?
@@ -89,6 +91,8 @@ class Layer
                    else
                      layerspecs
                    end
+
+      layerspecs = filter_name(find_by_name) if find_by_name.present?
       layerspecs
     end
 
