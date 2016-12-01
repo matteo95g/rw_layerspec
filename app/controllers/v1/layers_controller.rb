@@ -111,7 +111,11 @@ module V1
                            params[:logged_user][:extra_user_data][:apps].map { |v| v.downcase }.uniq
                          end
           @layer_apps  = if action_name != 'destroy' && layer_params[:application].present?
-                           layer_params[:application].map(&:downcase)
+                           if layer_params[:application].is_a?(String)
+                              layer_params[:application].split(',').map(&:downcase)
+                            else
+                              layer_params[:application].map(&:downcase)
+                            end
                           end
 
           User.data = [{ user_id: user_id, role: @role, apps: @apps }]

@@ -6,7 +6,7 @@ class User < ActiveHash::Base
     def authorize_user!(user, layer_apps, layer_user_id=nil, match_apps=false)
       user_role   = user.role
       user_apps   = user.apps.sort       if user.apps.present?
-      layer_apps  = layer_apps.uniq.sort if layer_apps.present?
+      layer_apps  = layer_apps.is_a?(String) ? layer_apps.split(',').uniq.sort : layer_apps.uniq.sort if layer_apps.present?
       if user_apps.present? && layer_apps.present?
         create_case_a = user_apps.present? && layer_apps.present? && match_apps.blank? &&
                                           (user_apps & layer_apps).any? &&
