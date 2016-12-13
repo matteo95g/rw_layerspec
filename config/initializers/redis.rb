@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 if ENV["REDISCLOUD_URL"].present?
   $redis = Redis.new(url: ENV["REDISCLOUD_URL"])
 else

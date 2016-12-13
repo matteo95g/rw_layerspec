@@ -8,8 +8,12 @@ TODO: Write a project description
 
 Requirements:
 
-* Ruby 2.3.0 [How to install](https://gorails.com/setup/osx/10.10-yosemite)
+* Ruby 2.3.1 [How to install](https://gorails.com/setup/osx/10.10-yosemite)
 * [MongoDB](https://www.mongodb.org/)
+
+## Usage
+
+### Natively
 
 Install global dependencies:
 
@@ -19,15 +23,46 @@ Install project dependencies:
 
     bundle install
 
-## Usage
-
 First time execute:
 
     cp config/mongoid.yml.sample config/mongoid.yml
+    cp env.sample .env
 
 To run application:
 
     bundle exec rails server
+
+### Using Docker
+
+### Requirements for docker
+
+If You are going to use containers, You will need:
+
+- [Docker](https://www.docker.com/)
+- [docker-compose](https://docs.docker.com/compose/)
+
+## Executing
+
+Start by checking out the project from github
+
+```
+git clone https://github.com/Vizzuality/rw_layerspec.git
+cd rw_layerspec
+```
+
+You can either run the application natively, or inside a docker container.
+
+To setup the project on docker:
+
+```
+./service develop
+```
+
+To run the tests on docker:
+
+```
+./service test
+```
 
 ## TEST
 

@@ -1,16 +1,19 @@
+# frozen_string_literal: true
 source 'https://rubygems.org'
 
-ruby '2.3.0'
+ruby '2.3.1'
 
-gem 'rails', '~> 5.0.0'
+gem 'rails', '~> 5.0.0', '< 5.1'
 
-gem 'mongoid', '~> 6.0.0.beta'
+gem 'mongoid', '~> 6.0.1'
 gem 'bson_ext'
 
 gem 'oj'
 gem 'oj_mimic_json'
 gem 'active_model_serializers', '~> 0.10.2'
 gem 'curb', require: false
+gem 'active_hash'
+gem 'will_paginate_mongoid'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.5.1'

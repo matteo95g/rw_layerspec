@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module LayerData
   extend ActiveSupport::Concern
 
@@ -10,7 +11,7 @@ module LayerData
     field :dataset_id,         type: :string
     field :provider,           type: :string,  default: 'cartodb'
     field :slug,               type: :string
-    field :application,        type: :string,  default: 'gfw'
+    field :application,        type: :array,   default: ['gfw']
     field :published,          type: :boolean, default: false
     field :status,             type: :integer, default: 1
     field :default,            type: :boolean, default: false
@@ -19,6 +20,7 @@ module LayerData
     field :legend_config,      type: :hash,    default: {}
     field :application_config, type: :hash,    default: {}
     field :iso,                type: :array,   default: []
+    field :user_id,            type: :string
   end
 
   class_methods do

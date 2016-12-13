@@ -1,24 +1,33 @@
+# frozen_string_literal: true
 class LayerSerializer < ApplicationSerializer
-  attributes :id, :slug, :application, :name, :default, :dataset_id, :provider, :iso, :description,
-             :layer_config, :legend_config, :application_config
+  attributes :id, :slug, :userId, :application, :name, :default, :dataset, :provider, :iso, :description,
+             :layerConfig, :legendConfig, :applicationConfig
 
   def application
-    object.app_txt
+    object.try(:app_txt)
+  end
+
+  def dataset
+    object.try(:dataset_id)
   end
 
   def provider
-    object.provider_txt
+    object.try(:provider_txt)
   end
 
-  def layer_config
+  def userId
+    object.try(:user_id)
+  end
+
+  def layerConfig
     object.layer_config == '{}' ? nil : object.layer_config
   end
 
-  def legend_config
+  def legendConfig
     object.legend_config == '{}' ? nil : object.legend_config
   end
 
-  def application_config
+  def applicationConfig
     object.application_config == '{}' ? nil : object.application_config
   end
 end
