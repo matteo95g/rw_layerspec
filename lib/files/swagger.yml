@@ -58,6 +58,10 @@ paths:
           in: query
           description: Filter layers on on dataset (dataset_id)
           type: string
+        - name: sort
+          in: query
+          description: Sort filter (?sort=name)
+          type: string
       responses:
         200:
           description: Layers obtained
@@ -146,6 +150,10 @@ paths:
           in: query
           description: Filter layers on app (default, gfw, wrw)
           type: string
+        - name: sort
+          in: query
+          description: Sort filter (?sort=name)
+          type: string
       responses:
         200:
           description: Layers obtained
@@ -189,7 +197,7 @@ paths:
           description: Layer to save
           required: true
           schema:
-            $ref: '#/definitions/Layer'
+            $ref: '#/definitions/LayerBody'
       responses:
         200:
           description: The object created
@@ -213,6 +221,48 @@ paths:
             $ref: '#/definitions/Error'
 
   /dataset/{dataset_id}/layer/{id}:
+    get:
+      description: Returns layer based on a single UUID or slug for specific dataset, if the layer not exist return 404
+      consumes:
+        - application/vnd.api+json
+      produces:
+        - application/vnd.api+json
+        - application/json
+      tags:
+        - Layer
+      parameters:
+        - name: dataset_id
+          in: path
+          description: UUID of dataset to update layer
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: UUID of layer to fetch or slug
+          required: true
+          type: string
+      responses:
+        200:
+          description: Layer obtained
+          schema:
+            $ref: '#/definitions/Layer'
+        401:
+          description: Not authorized!
+          schema:
+            $ref: '#/definitions/Error'
+        404:
+          description: Layer not found
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
     put:
       description: Update layer for specific dataset based on a single UUID or slug, if the layer not exist return 404
       consumes:
@@ -238,7 +288,7 @@ paths:
           description: New data of the layer
           required: true
           schema:
-            $ref: '#/definitions/Layer'
+            $ref: '#/definitions/LayerBody'
       responses:
         200:
           description: Layer updated
@@ -286,7 +336,7 @@ paths:
           description: New data of the layer
           required: true
           schema:
-            $ref: '#/definitions/Layer'
+            $ref: '#/definitions/LayerBody'
       responses:
         200:
           description: Layer updated
@@ -362,15 +412,12 @@ paths:
       tags:
         - Layer
       parameters:
-        - name: ids
+        - name: layer
           in: body
-          description: Dataset ids
+          description: Ids of datasets
           required: true
           schema:
-            type: array
-            description: array of dataset ids
-            items:
-              type: string
+            $ref: '#/definitions/Ids'
       responses:
         200:
           description: Layers obtained
@@ -444,7 +491,7 @@ definitions:
             description: Default layer for configurated dataset
           dataset:
             type: string
-            description: Id of dataset
+            description: Uuid of dataset
           provider:
             type: string
             description: Provider
@@ -465,6 +512,79 @@ definitions:
           applicationConfig:
             type: object
             description: Json field for application config
+      meta:
+        type: object
+        description: Available only for specific layer not on the list endpoint
+        properties:
+          published:
+            type: boolean
+            description: Published status
+          status:
+            type: string
+            description: Status
+          updated_at:
+            type: string
+            description: Date
+          created_at:
+            type: string
+            description: Date
+
+  LayerBody:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Layer uuid
+      slug:
+        type: string
+        description: Slug of the layer
+      userId:
+        type: string
+        description: Id of user
+      application:
+        type: array
+        description: Available for defined applications
+        items:
+          type: string
+      name:
+        type: string
+        description: Name of the layer
+      default:
+        type: boolean
+        description: Default layer for configurated dataset
+      dataset:
+        type: string
+        description: Id of dataset
+      provider:
+        type: string
+        description: Provider
+      iso:
+        type: array
+        description: Country iso
+        items:
+          type: string
+      description:
+        type: string
+        description: Description
+      layerConfig:
+        type: object
+        description: Json field for layer config
+      legendConfig:
+        type: object
+        description: Json field for legend config
+      applicationConfig:
+        type: object
+        description: Json field for application config
+
+  Ids:
+    type: object
+    description: Array of dataset ids
+    properties:
+      ids:
+        type: array
+        description: array of dataset ids
+        items:
+          type: string
 
   Message:
     type: object
