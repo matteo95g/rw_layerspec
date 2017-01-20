@@ -1,7 +1,7 @@
 {
     "id": "rw_layerspec_v1",
     "name": "RW Layerspec v1",
-    "tags": ["rw"],
+    "tags": ["rw","gfw","wrw"],
     "urls": [
       {
         "url": "/layer",
@@ -150,6 +150,12 @@
                 "name": "sort",
                 "in": "query",
                 "description": "Sort filter (?sort=name)",
+                "type": "string"
+              },
+              {
+                "name": "name",
+                "in": "query",
+                "description": "Filter the layers whose name contains the filter text",
                 "type": "string"
               }
             ],

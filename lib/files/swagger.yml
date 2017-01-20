@@ -62,6 +62,10 @@ paths:
           in: query
           description: Sort filter (?sort=name)
           type: string
+        - name: name
+          in: query
+          description: Filter the layers whose name contains the filter text
+          type: string
       responses:
         200:
           description: Layers obtained
