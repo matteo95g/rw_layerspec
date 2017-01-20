@@ -536,15 +536,9 @@ definitions:
   LayerBody:
     type: object
     properties:
-      id:
-        type: string
-        description: Layer uuid
       slug:
         type: string
         description: Slug of the layer
-      userId:
-        type: string
-        description: Id of user
       application:
         type: array
         description: Available for defined applications
