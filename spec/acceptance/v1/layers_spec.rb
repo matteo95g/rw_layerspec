@@ -34,6 +34,14 @@ module V1
                                       }
                                     }
                                   },
+                                  "staticImageConfig": {
+                                    "marks": {
+                                      "type": "rect",
+                                      "from": {
+                                        "data": "table"
+                                      }
+                                    }
+                                  },
                                   "applicationConfig": {
                                     "config one": {
                                       "type": "lorem",
@@ -191,6 +199,18 @@ module V1
         expect(json['attributes']['dataset']).to       eq('c867138c-eccf-4e57-8aa2-b62b87800ddf')
         expect(json['attributes']['application']).to   eq(['gfw'])
         expect(json['attributes']['legendConfig']).to eq({"marks"=>{"type"=>"rect", "from"=>{"data"=>"table"}}})
+      end
+
+      it 'Allows to create layer with static image config' do
+        post '/layer', params: params
+
+        expect(status).to eq(201)
+        expect(json['id']).to                          be_present
+        expect(json['attributes']['slug']).to          eq('second-test-layer')
+        expect(json['attributes']['provider']).to      eq('cartodb')
+        expect(json['attributes']['dataset']).to       eq('c867138c-eccf-4e57-8aa2-b62b87800ddf')
+        expect(json['attributes']['application']).to   eq(['gfw'])
+        expect(json['attributes']['staticImageConfig']).to eq({"marks"=>{"type"=>"rect", "from"=>{"data"=>"table"}}})
       end
 
       it 'Allows to create dataset layer' do
