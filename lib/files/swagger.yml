@@ -516,6 +516,10 @@ definitions:
           applicationConfig:
             type: object
             description: Json field for application config
+          staticImageConfig:
+            type: object
+            description: Json field for static image config
+
       meta:
         type: object
         description: Available only for specific layer not on the list endpoint
@@ -573,6 +577,10 @@ definitions:
       applicationConfig:
         type: object
         description: Json field for application config
+      staticImageConfig:
+        type: object
+        description: Json field for staticImageConfig config
+
 
   Ids:
     type: object
