@@ -22,7 +22,7 @@ module V1
                                   ],
                                   "layerConfig": {
                                     "display": true,
-                                    "max_date": "2016-02-14",
+                                    "maxDate": "2016-02-14",
                                     "min_date": "2012-01-12",
                                     "fit_to_geom": true
                                   },
@@ -35,9 +35,9 @@ module V1
                                     }
                                   },
                                   "applicationConfig": {
-                                    "config one": {
-                                      "type": "lorem",
-                                      "from": {
+                                    "config_one": {
+                                      "type_data": "lorem",
+                                      "fromData": {
                                         "data": "table"
                                       }
                                     }
@@ -60,8 +60,8 @@ module V1
                                       "layerConfig": {
                                         "display": true,
                                         "max_date": "2016-02-14",
-                                        "min_date": "2012-01-12",
-                                        "fit_to_geom": true
+                                        "minDate": "2012-01-12",
+                                        "fitToGeom": true
                                       },
                                       "legend_config": {
                                         "marks": {
@@ -72,7 +72,7 @@ module V1
                                         }
                                       },
                                       "applicationConfig": {
-                                        "config one": {
+                                        "config_one": {
                                           "type": "lorem",
                                           "from": {
                                             "data": "table"
@@ -185,25 +185,29 @@ module V1
         post '/layer', params: params
 
         expect(status).to eq(201)
-        expect(json['id']).to                          be_present
-        expect(json['attributes']['slug']).to          eq('second-test-layer')
-        expect(json['attributes']['provider']).to      eq('cartodb')
-        expect(json['attributes']['dataset']).to       eq('c867138c-eccf-4e57-8aa2-b62b87800ddf')
-        expect(json['attributes']['application']).to   eq(['gfw'])
-        expect(json['attributes']['legendConfig']).to eq({"marks"=>{"type"=>"rect", "from"=>{"data"=>"table"}}})
+        expect(json['id']).to                              be_present
+        expect(json['attributes']['slug']).to              eq('second-test-layer')
+        expect(json['attributes']['provider']).to          eq('cartodb')
+        expect(json['attributes']['dataset']).to           eq('c867138c-eccf-4e57-8aa2-b62b87800ddf')
+        expect(json['attributes']['application']).to       eq(['gfw'])
+        expect(json['attributes']['legendConfig']).to      eq({"marks"=>{"type"=>"rect", "from"=>{"data"=>"table"}}})
+        expect(json['attributes']['layerConfig']).to       eq({"display"=>"true", "maxDate"=>"2016-02-14", "min_date"=>"2012-01-12", "fit_to_geom"=>"true"})
+        expect(json['attributes']['applicationConfig']).to eq({"config_one"=>{"type_data"=>"lorem", "fromData"=>{"data"=>"table"}}})
       end
 
       it 'Allows to create dataset layer' do
         post '/dataset/c867138c-eccf-4e57-8aa2-b62b87800ddf/layer', params: new_params
 
         expect(status).to eq(201)
-        expect(json['id']).to                         be_present
-        expect(json['attributes']['slug']).to         eq('second-test-layer')
-        expect(json['attributes']['provider']).to     eq('cartodb')
-        expect(json['attributes']['dataset']).to      eq('c867138c-eccf-4e57-8aa2-b62b87800ddf')
-        expect(json['attributes']['application']).to  eq(['gfw'])
-        expect(json['attributes']['userId']).to       eq('3242-32442-432')
-        expect(json['attributes']['legendConfig']).to eq({"marks"=>{"type"=>"rect", "from"=>{"data"=>"table"}}})
+        expect(json['id']).to                              be_present
+        expect(json['attributes']['slug']).to              eq('second-test-layer')
+        expect(json['attributes']['provider']).to          eq('cartodb')
+        expect(json['attributes']['dataset']).to           eq('c867138c-eccf-4e57-8aa2-b62b87800ddf')
+        expect(json['attributes']['application']).to       eq(['gfw'])
+        expect(json['attributes']['userId']).to            eq('3242-32442-432')
+        expect(json['attributes']['legendConfig']).to      eq({"marks"=>{"type"=>"rect", "from"=>{"data"=>"table"}}})
+        expect(json['attributes']['layerConfig']).to       eq({"display"=>"true", "max_date"=>"2016-02-14", "minDate"=>"2012-01-12", "fitToGeom"=>"true"})
+        expect(json['attributes']['applicationConfig']).to eq({"config_one"=>{"type"=>"lorem", "from"=>{"data"=>"table"}}})
       end
 
       it 'Allows to create layer with not valid provider' do
