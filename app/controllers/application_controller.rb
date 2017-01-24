@@ -19,7 +19,13 @@ class ApplicationController < ActionController::API
       when Hash
         val.keys.each do |k, v = val[k]|
           val.delete k
-          val[k.underscore] = deep_underscore_params!(v)
+          val[k.underscore] = if k.underscore.include?('layer_config')  ||
+                                 k.underscore.include?('legend_config') ||
+                                 k.underscore.include?('application_config')
+                                v
+                              else
+                                deep_underscore_params!(v)
+                              end
         end
         val
       else
