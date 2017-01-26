@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class LayerSerializer < ApplicationSerializer
   attributes :id, :slug, :userId, :application, :name, :default, :dataset, :provider, :iso, :description,
-             :layerConfig, :legendConfig, :applicationConfig
+             :layerConfig, :legendConfig, :applicationConfig, :staticImageConfig
 
   def application
     object.try(:app_txt)
@@ -30,4 +30,9 @@ class LayerSerializer < ApplicationSerializer
   def applicationConfig
     object.application_config == '{}' ? nil : object.application_config
   end
+
+  def staticImageConfig
+    object.static_image_config == '{}' ? nil : object.static_image_config
+  end
+
 end
