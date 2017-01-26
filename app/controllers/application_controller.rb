@@ -21,7 +21,8 @@ class ApplicationController < ActionController::API
           val.delete k
           val[k.underscore] = if k.underscore.include?('layer_config')  ||
                                  k.underscore.include?('legend_config') ||
-                                 k.underscore.include?('application_config')
+                                 k.underscore.include?('application_config') ||
+                                 k.underscore.include?('static_image_config')
                                 v
                               else
                                 deep_underscore_params!(v)
