@@ -7,7 +7,7 @@ module V1
     end
 
     def info
-        @docs = Oj.load(File.read("lib/files/service_#{ENV['RAILS_ENV']}.json"))
+      @docs = Oj.load(File.read("lib/files/service_#{ENV['RAILS_ENV']}.json"))
         render json: @docs
     end
 
