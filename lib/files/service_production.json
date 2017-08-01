@@ -1,10 +1,11 @@
+
 {
     "id": "rw_layerspec_v1",
     "name": "RW Layerspec v1",
     "tags": ["rw","gfw","wrw"],
     "urls": [
       {
-        "url": "/layer",
+        "url": "/v1/layer",
         "method": "GET",
         "endpoints": [{
             "method": "GET",
@@ -13,7 +14,7 @@
         }]
       },
       {
-        "url": "/layer/:id",
+        "url": "/v1/layer/:id",
         "method": "GET",
         "endpoints": [{
             "method": "GET",
@@ -22,7 +23,7 @@
         }]
       },
       {
-        "url": "/dataset/:dataset_id/layer/:id",
+        "url": "/v1/dataset/:dataset_id/layer/:id",
         "method": "GET",
         "endpoints": [{
             "method": "GET",
@@ -31,7 +32,7 @@
         }]
       },
       {
-        "url": "/dataset/:dataset_id/layer",
+        "url": "/v1/dataset/:dataset_id/layer",
         "method": "GET",
         "endpoints": [{
             "method": "GET",
@@ -40,7 +41,7 @@
         }]
       },
       {
-        "url": "/layer/find-by-ids",
+        "url": "/v1/layer/find-by-ids",
         "method": "POST",
         "endpoints": [{
             "method": "POST",
@@ -49,7 +50,7 @@
         }]
       },
       {
-        "url": "/dataset/:dataset_id/layer/:id",
+        "url": "/v1/dataset/:dataset_id/layer/:id",
         "method": "PUT",
         "authenticated": true,
         "endpoints": [{
@@ -59,7 +60,7 @@
         }]
       },
       {
-        "url": "/dataset/:dataset_id/layer/:id",
+        "url": "/v1/dataset/:dataset_id/layer/:id",
         "method": "PATCH",
         "authenticated": true,
         "endpoints": [{
@@ -69,7 +70,7 @@
         }]
       },
       {
-        "url": "/dataset/:dataset_id/layer",
+        "url": "/v1/dataset/:dataset_id/layer",
         "method": "POST",
         "authenticated": true,
         "endpoints": [{
@@ -79,7 +80,7 @@
         }]
       },
       {
-        "url": "/dataset/:dataset_id/layer/:id",
+        "url": "/v1/dataset/:dataset_id/layer/:id",
         "method": "DELETE",
         "authenticated": true,
         "endpoints": [{
