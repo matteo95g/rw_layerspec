@@ -68,6 +68,9 @@ module V1
     def destroy
       authorized = User.authorize_user!(@user, intersect_apps(@layer.application, @apps), @layer.try(:user_id), match_apps: true)
       if authorized.present?
+        puts "LAYER"
+        puts @layer.id
+        GraphService.delete_from_graph_service(@layer.id)
         if @layer.destroy
           render json: { success: true, message: 'Layer deleted' }, status: 200
         else
