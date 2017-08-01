@@ -49,7 +49,6 @@ module V1
         if authorized.present?
           @layer = Layer.new(layer_params.except(:logged_user))
           if @layer.save
-            puts "HERE"
             GraphService.register_to_graph_service(@layer.dataset, @layer.id)
             render json: @layer, status: 201, serializer: LayerSerializer, meta: { status: @layer.try(:status_txt),
                                                                                    published: @layer.try(:published),
