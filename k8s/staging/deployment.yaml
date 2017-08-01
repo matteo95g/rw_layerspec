@@ -69,6 +69,16 @@ spec:
                 secretKeyRef:
                   name: mssecrets
                   key: API_VERSION
+          - name: GATEWAY_URL
+            valueFrom:
+                secretKeyRef:
+                  name: mssecrets
+                  key: CT_URL
+          - name: GATEWAY_TOKEN
+            valueFrom:
+                secretKeyRef:
+                  name: mssecrets
+                  key: CT_TOKEN
 
         ports:
           - containerPort: 3030
