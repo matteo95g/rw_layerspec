@@ -25,4 +25,3 @@
 /.env.*
 test.env
 dev.env
-Dockerfile

@@ -1,0 +1,86 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    name: {name}
+  name: {name}
+spec:
+  revisionHistoryLimit: 0
+  template:
+    metadata:
+      annotations:
+        chaos.alpha.kubernetes.io/enabled: "true"
+      labels:
+        name: {name}
+    spec:
+      containers:
+      - name: {name}
+        image: vizzuality/{name}
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "0Mi"
+            cpu: "0m"
+        args:
+          - start
+        env:
+          - name: PORT
+            value: "3030"
+          - name: RAILS_ENV
+            value: staging
+          - name: RACK_ENV
+            value: staging
+          - name: RAILS_LOG_TO_STDOUT
+            value: "true"
+          - name: SECRET_KEY_BASE
+            value: 9523c400cf93ce61b3670daf7238a8614a7dc747410e2ee6028da703a44bf142071f0cf606fda83392faea057738faf8b39385413171287f4828693d86b2704f
+          - name: LOCAL_URL
+            value: http://{name}.default.svc.cluster.local:3030
+          - name: MONGO_PORT_27017_TCP_ADDR
+            value: mongo-mongodb.default.svc.cluster.local
+          - name: MONGO_PORT_27017_TCP_PORT
+            value: "27017"
+          - name: MONGO_PORT_27017_TCP_USER
+            value: layer
+          - name: MONGO_PORT_27017_TCP_PASS
+            valueFrom:
+                secretKeyRef:
+                  name: dbsecrets
+                  key: LAYER_MONGO_URI_PASS
+          - name: MONGO_PORT_27017_TCP_DB
+            value: layer
+          - name: CT_URL
+            valueFrom:
+                secretKeyRef:
+                  name: mssecrets
+                  key: CT_URL
+          - name: CT_TOKEN
+            valueFrom:
+                secretKeyRef:
+                  name: mssecrets
+                  key: CT_TOKEN
+          - name: CT_REGISTER_MODE
+            valueFrom:
+                secretKeyRef:
+                  name: mssecrets
+                  key: CT_REGISTER_MODE
+          - name: API_VERSION
+            valueFrom:
+                secretKeyRef:
+                  name: mssecrets
+                  key: API_VERSION
+          - name: GATEWAY_URL
+            valueFrom:
+                secretKeyRef:
+                  name: mssecrets
+                  key: CT_URL
+          - name: GATEWAY_TOKEN
+            valueFrom:
+                secretKeyRef:
+                  name: mssecrets
+                  key: CT_TOKEN
+
+        ports:
+          - containerPort: 3030
+
+      restartPolicy: Always
