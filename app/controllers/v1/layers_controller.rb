@@ -17,6 +17,24 @@ module V1
       render json: @layers, each_serializer: LayerSerializer, meta: { layersCount: @layers.size }
     end
 
+    def change_env
+      puts "PARAMS"
+      puts params.to_json
+      @layers = Layer.fetch_by_datasets({ids: [params["dataset_id"]]})
+      @environment = params["env"]
+      puts "LAYERS"
+      puts @layers
+
+      @layers.each do |layer|
+        puts "PROCESSING ONE LAYER"
+        layer.env = @environment
+        layer.save
+      end
+      
+      render json: @layers, each_serializer: LayerSerializer, meta: { layersCount: @layers.size }
+    end
+
+
     def show
       render json: @layer, serializer: LayerSerializer, meta: { status: @layer.try(:status_txt),
                                                                 published: @layer.try(:published),
@@ -149,3 +167,4 @@ module V1
       end
   end
 end
+
