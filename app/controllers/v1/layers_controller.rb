@@ -48,6 +48,9 @@ module V1
         authorized = User.authorize_user!(@user, @layer_apps)
         if authorized.present?
           @layer = Layer.new(layer_params.except(:logged_user))
+          @dataset = LayerspecService.request_dataset_env(@layer.dataset_id)
+          env = JSON.parse(@dataset)["data"]["attributes"]["env"]
+          @layer.env = env
           if @layer.save
             render json: @layer, status: 201, serializer: LayerSerializer, meta: { status: @layer.try(:status_txt),
                                                                                    published: @layer.try(:published),

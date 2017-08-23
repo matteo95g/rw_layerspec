@@ -15,5 +15,15 @@ module LayerspecService
         curl.headers['authentication'] = Service::SERVICE_TOKEN
       end
     end
+
+    def request_dataset_env(dataset_id)
+      url = URI.decode("#{Service::SERVICE_URL}/v1/dataset/#{dataset_id}")
+      @c = Curl::Easy.http_get(URI.escape(url)) do |curl|
+        curl.headers['Accept']         = 'application/json'
+        curl.headers['Content-Type']   = 'application/json'
+        curl.headers['authentication'] = Service::SERVICE_TOKEN
+      end
+      return @c.body_str
+    end
   end
 end
