@@ -3,7 +3,7 @@
     "name": "RW Layerspec v1",
     "urls": [
       {
-        "url": "/layer",
+        "url": "/v1/layer",
         "method": "GET",
         "endpoints": [{
             "method": "GET",
@@ -12,7 +12,7 @@
         }]
       },
       {
-        "url": "/layer/:id",
+        "url": "/v1/layer/:id",
         "method": "GET",
         "endpoints": [{
             "method": "GET",
@@ -21,7 +21,7 @@
         }]
       },
       {
-        "url": "/dataset/:dataset_id/layer/:id",
+        "url": "/v1/dataset/:dataset_id/layer/:id",
         "method": "GET",
         "endpoints": [{
             "method": "GET",
@@ -30,7 +30,7 @@
         }]
       },
       {
-        "url": "/dataset/:dataset_id/layer",
+        "url": "/v1/dataset/:dataset_id/layer",
         "method": "GET",
         "endpoints": [{
             "method": "GET",
@@ -39,7 +39,7 @@
         }]
       },
       {
-        "url": "/layer",
+        "url": "/v1/layer",
         "method": "POST",
         "endpoints": [{
             "method": "POST",
@@ -48,7 +48,7 @@
         }]
       },
       {
-        "url": "/layer/find-by-ids",
+        "url": "/v1/layer/find-by-ids",
         "method": "POST",
         "endpoints": [{
             "method": "POST",
@@ -57,7 +57,17 @@
         }]
       },
       {
-        "url": "/layer/:id",
+        "url": "/v1/layer/change-environment/:dataset_id/:env",
+          "method": "PATCH",
+	  "authenticated": true,
+        "endpoints": [{
+            "method": "PATCH",
+            "baseUrl": "http://mymachine:3030",
+            "path": "/layer/change-environment/:dataset_id/:env"
+        }]
+      },
+      {
+        "url": "/v1/layer/:id",
         "method": "PUT",
         "endpoints": [{
             "method": "PUT",
@@ -66,7 +76,7 @@
         }]
       },
       {
-        "url": "/layer/:id",
+        "url": "/v1/layer/:id",
         "method": "PATCH",
         "endpoints": [{
             "method": "PATCH",
@@ -75,7 +85,7 @@
         }]
       },
       {
-        "url": "/dataset/:dataset_id/layer/:id",
+        "url": "/v1/dataset/:dataset_id/layer/:id",
         "method": "PUT",
         "endpoints": [{
             "method": "PUT",
@@ -84,7 +94,7 @@
         }]
       },
       {
-        "url": "/dataset/:dataset_id/layer/:id",
+        "url": "/v1/dataset/:dataset_id/layer/:id",
         "method": "PATCH",
         "endpoints": [{
             "method": "PATCH",
@@ -93,7 +103,7 @@
         }]
       },
       {
-        "url": "/dataset/:dataset_id/layer",
+        "url": "/v1/dataset/:dataset_id/layer",
         "method": "POST",
         "endpoints": [{
             "method": "POST",
@@ -102,7 +112,7 @@
         }]
       },
       {
-        "url": "/dataset/:dataset_id/layer/:id",
+        "url": "/v1/dataset/:dataset_id/layer/:id",
         "method": "DELETE",
         "endpoints": [{
             "method": "DELETE",
@@ -111,7 +121,7 @@
         }]
       },
       {
-        "url": "/layer/:id",
+        "url": "/v1/layer/:id",
         "method": "DELETE",
         "endpoints": [{
             "method": "DELETE",

@@ -4,8 +4,9 @@ module V1
     include ParamsHandler
 
     before_action :set_layer,  only: [:show, :update, :destroy]
-    before_action :set_user,   except: [:index, :show, :by_datasets]
+    before_action :set_user,   except: [:index, :show, :by_datasets, :change_env]
     before_action :set_caller, only: :update
+    before_action :check_ms,   only: :change_env
 
     def index
       @layers = LayersIndex.new(self)
@@ -18,20 +19,14 @@ module V1
     end
 
     def change_env
-      puts "PARAMS"
-      puts params.to_json
       @layers = Layer.fetch_by_datasets({ids: [params["dataset_id"]]})
       @environment = params["env"]
-      puts "LAYERS"
-      puts @layers
-
       @layers.each do |layer|
-        puts "PROCESSING ONE LAYER"
         layer.env = @environment
         layer.save
       end
       
-      render json: @layers, each_serializer: LayerSerializer, meta: { layersCount: @layers.size }
+      render status: 200, json: {"status": "OK"}
     end
 
 
@@ -145,6 +140,15 @@ module V1
           render json: { errors: [{ status: 401, title: 'Not authorized!' }] }, status: 401 if params[:logged_user][:id] != 'microservice'
         end
       end
+
+      def check_ms
+        if params[:logged_user].present? && params[:logged_user][:id] == 'microservice'
+          @ms = true
+        else
+          render json: { errors: [{ status: 401, title: 'Not authorized!' }] }, status: 401 if params[:logged_user][:id] != 'microservice'
+        end
+      end
+
 
       def set_caller
         if layer_params[:logged_user].present? && layer_params[:logged_user][:id] == 'microservice'
