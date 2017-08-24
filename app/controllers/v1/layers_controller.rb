@@ -4,8 +4,9 @@ module V1
     include ParamsHandler
 
     before_action :set_layer,  only: [:show, :update, :destroy]
-    before_action :set_user,   except: [:index, :show, :by_datasets]
+    before_action :set_user,   except: [:index, :show, :by_datasets, :change_env]
     before_action :set_caller, only: :update
+    before_action :check_ms,   only: :change_env
 
     def index
       @layers = LayersIndex.new(self)
@@ -16,6 +17,18 @@ module V1
       @layers = Layer.fetch_by_datasets(layer_datasets_filter)
       render json: @layers, each_serializer: LayerSerializer, meta: { layersCount: @layers.size }
     end
+
+    def change_env
+      @layers = Layer.fetch_by_datasets({ids: [params["dataset_id"]]})
+      @environment = params["env"]
+      @layers.each do |layer|
+        layer.env = @environment
+        layer.save
+      end
+      
+      render status: 200, json: {"status": "OK"}
+    end
+
 
     def show
       render json: @layer, serializer: LayerSerializer, meta: { status: @layer.try(:status_txt),
@@ -48,7 +61,11 @@ module V1
         authorized = User.authorize_user!(@user, @layer_apps)
         if authorized.present?
           @layer = Layer.new(layer_params.except(:logged_user))
+          @dataset = LayerspecService.request_dataset_env(@layer.dataset_id)
+          env = JSON.parse(@dataset)["data"]["attributes"]["env"]
+          @layer.env = env
           if @layer.save
+            GraphService.register_to_graph_service(@layer.dataset, @layer.id)
             render json: @layer, status: 201, serializer: LayerSerializer, meta: { status: @layer.try(:status_txt),
                                                                                    published: @layer.try(:published),
                                                                                    updatedAt: @layer.try(:updated_at),
@@ -67,6 +84,9 @@ module V1
     def destroy
       authorized = User.authorize_user!(@user, intersect_apps(@layer.application, @apps), @layer.try(:user_id), match_apps: true)
       if authorized.present?
+        puts "LAYER"
+        puts @layer.id
+        GraphService.delete_from_graph_service(@layer.id)
         if @layer.destroy
           render json: { success: true, message: 'Layer deleted' }, status: 200
         else
@@ -125,6 +145,15 @@ module V1
         end
       end
 
+      def check_ms
+        if params[:logged_user].present? && params[:logged_user][:id] == 'microservice'
+          @ms = true
+        else
+          render json: { errors: [{ status: 401, title: 'Not authorized!' }] }, status: 401 if params[:logged_user][:id] != 'microservice'
+        end
+      end
+
+
       def set_caller
         if layer_params[:logged_user].present? && layer_params[:logged_user][:id] == 'microservice'
           @layer_params = layer_params.except(:user_id, :logged_user, :slug, :id)
@@ -146,3 +175,4 @@ module V1
       end
   end
 end
+

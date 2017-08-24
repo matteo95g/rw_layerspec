@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class LayerSerializer < ApplicationSerializer
   attributes :id, :slug, :userId, :application, :name, :default, :dataset, :provider, :iso, :description,
-             :layerConfig, :legendConfig, :applicationConfig, :staticImageConfig
+             :layerConfig, :legendConfig, :applicationConfig, :staticImageConfig, :env
 
   def application
     object.try(:app_txt)
@@ -17,6 +17,10 @@ class LayerSerializer < ApplicationSerializer
 
   def userId
     object.try(:user_id)
+  end
+
+  def env
+    object.try(:env)
   end
 
   def layerConfig

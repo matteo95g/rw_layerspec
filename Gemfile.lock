@@ -73,6 +73,8 @@ GEM
     ffi (1.9.14)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
+    httparty (0.15.6)
+      multi_xml (>= 0.5.2)
     i18n (0.7.0)
     json (1.8.3)
     jsonapi (0.1.1.beta2)
@@ -95,6 +97,7 @@ GEM
     mongoid (6.0.2)
       activemodel (~> 5.0)
       mongo (~> 2.3)
+    multi_xml (0.6.0)
     newrelic_rpm (3.17.1.326)
     nio4r (1.2.1)
     nokogiri (1.6.8.1)
@@ -231,6 +234,7 @@ DEPENDENCIES
   database_cleaner
   dotenv-rails
   faker
+  httparty
   listen (~> 3.0.5)
   mongoid (~> 6.0.1)
   newrelic_rpm
@@ -257,4 +261,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.13.5
+   1.15.4

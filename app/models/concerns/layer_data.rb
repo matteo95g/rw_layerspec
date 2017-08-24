@@ -22,6 +22,7 @@ module LayerData
     field :iso,                 type: :array,   default: []
     field :user_id,             type: :string
     field :static_image_config, type: :hash,    default: {}
+    field :env,                 type: :string,  default: ''
   end
 
   class_methods do

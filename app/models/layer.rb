@@ -1,3 +1,4 @@
+# coding: utf-8
 # frozen_string_literal: true
 class Layer
   STATUS   = %w(pending saved failed deleted).freeze
@@ -8,6 +9,8 @@ class Layer
   before_update :assign_slug
   before_save   :merge_apps, if: 'application_changed?'
 
+  before_save   :assign_environment
+
   before_validation(on: :create) do
     set_uuid
   end
@@ -16,6 +19,8 @@ class Layer
     check_slug
     downcase_provider
   end
+
+  
 
   validates :name, presence: true, on: :create
   validates :slug, presence: true, format: { with: /\A[^\s!#$%^&*()（）=+;:'"\[\]\{\}|\\\/<>?,]+\z/,
@@ -137,5 +142,9 @@ class Layer
       else
         self.errors.add(:provider, 'not valid')
       end
+    end
+
+    def assign_environment
+      nil
     end
 end
