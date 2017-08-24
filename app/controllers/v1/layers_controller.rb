@@ -65,6 +65,7 @@ module V1
           env = JSON.parse(@dataset)["data"]["attributes"]["env"]
           @layer.env = env
           if @layer.save
+            GraphService.register_to_graph_service(@layer.dataset, @layer.id)
             render json: @layer, status: 201, serializer: LayerSerializer, meta: { status: @layer.try(:status_txt),
                                                                                    published: @layer.try(:published),
                                                                                    updatedAt: @layer.try(:updated_at),
@@ -83,6 +84,9 @@ module V1
     def destroy
       authorized = User.authorize_user!(@user, intersect_apps(@layer.application, @apps), @layer.try(:user_id), match_apps: true)
       if authorized.present?
+        puts "LAYER"
+        puts @layer.id
+        GraphService.delete_from_graph_service(@layer.id)
         if @layer.destroy
           render json: { success: true, message: 'Layer deleted' }, status: 200
         else
