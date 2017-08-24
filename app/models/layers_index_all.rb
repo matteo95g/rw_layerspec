@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class LayersIndex
+class LayersIndexAll
   DEFAULT_SORTING = { updated_at: :desc }
   SORTABLE_FIELDS = [:name, :updated_at, :created_at, :env]
   PER_PAGE = 10
@@ -16,9 +16,9 @@ class LayersIndex
   end
 
   def layers
-    puts "OPTIONS FILTER"
+    puts "OPTIONS FILTER LAYERS FILTER ALL"
     puts options_filter.to_json
-    @layers ||= Layer.fetch_all(options_filter)
+    @layers ||= Layer.fetch_all_index(options_filter)
                      .order(sort_params)
                      .paginate(page: current_page, per_page: per_page)
     puts "LAYERS"
