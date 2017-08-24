@@ -4,7 +4,7 @@ module V1
     include ParamsHandler
 
     before_action :set_layer,  only: [:show, :update, :destroy]
-    before_action :set_user,   except: [:index, :show, :by_datasets, :change_env]
+    before_action :set_user,   except: [:index, :index_all, :show, :by_datasets, :change_env]
     before_action :set_caller, only: :update
     before_action :check_ms,   only: :change_env
 
@@ -12,6 +12,12 @@ module V1
       @layers = LayersIndex.new(self)
       render json: @layers.layers, each_serializer: LayerSerializer, links: @layers.links
     end
+
+    def index_all
+      @layers = LayersIndexAll.new(self)
+      render json: @layers.layers, each_serializer: LayerSerializer, links: @layers.links
+    end
+
 
     def by_datasets
       @layers = Layer.fetch_by_datasets(layer_datasets_filter)
@@ -21,6 +27,10 @@ module V1
     def change_env
       @layers = Layer.fetch_by_datasets({ids: [params["dataset_id"]]})
       @environment = params["env"]
+      puts "ENVIRONMENT"
+      puts @environment
+      puts "LAYERS"
+      puts @layers.to_json
       @layers.each do |layer|
         layer.env = @environment
         layer.save

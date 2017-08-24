@@ -1,8 +1,13 @@
 # frozen_string_literal: true
 Rails.application.routes.draw do
   scope module: :v1, constraints: APIVersion.new(version: 1, current: true) do
+    get    '/layer',          to: 'layers#index_all'
     resources :layers, path: 'layer'
-
+    # post   '/layer',          to: 'layers#create'
+    # get    '/layer/:id',      to: 'layers#show'
+    # patch  '/layer/:id',      to: 'layers#update'
+    # put    '/layer/:id',      to: 'layers#update'
+    # delete '/layer/:id',      to: 'layers#destroy'
     get    'dataset/:dataset_id/layer',                 to: 'layers#index', constraints: DateableConstraint
     get    'dataset/:dataset_id/layer/:id',             to: 'layers#show'
     post   'dataset/:dataset_id/layer',                 to: 'layers#create'
