@@ -803,6 +803,10 @@
                   "type": "object",
                   "description": "Json field for layer config"
                 },
+                "interactionConfig": {
+                  "type": "object",
+                  "description": "Json field for interaction config"
+                },
                 "legendConfig": {
                   "type": "object",
                   "description": "Json field for legend config"
