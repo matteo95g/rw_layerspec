@@ -18,6 +18,7 @@ module LayerData
     field :description,         type: :string
     field :layer_config,        type: :hash,    default: {}
     field :legend_config,       type: :hash,    default: {}
+    field :interaction_config,  type: :hash,    default: {}
     field :application_config,  type: :hash,    default: {}
     field :iso,                 type: :array,   default: []
     field :user_id,             type: :string
