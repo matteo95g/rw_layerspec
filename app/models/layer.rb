@@ -181,11 +181,7 @@ class Layer
     end
 
     def downcase_provider
-      if Layer::PROVIDER.include?(self.provider.downcase)
-        self.provider = self.provider.downcase.parameterize if self.provider.present?
-      else
-        self.errors.add(:provider, 'not valid')
-      end
+      self.provider = self.provider.downcase.parameterize if self.provider.present?
     end
 
     def assign_environment
